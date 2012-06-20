@@ -2,7 +2,7 @@ package ds;
 
 public class MyStack {
 
-	char[] myStack = new char[10];
+	char[] myStack = new char[20];
 	
 	int top = -1;
 	

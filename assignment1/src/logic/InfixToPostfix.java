@@ -36,20 +36,17 @@ public class InfixToPostfix {
 					
 				else{
 					
-					if ( pre(c) <= pre(s.peek()) ){
-						while ( !(s.isEmpty()) && (pre(c) <= pre(s.peek()) )){
-							
-							if (!s.isEmpty()){
-							char a = s.pop();
-							cpostfix[index] = a;
-							index++;
-							
-							}
+					while ((pre(c) <= pre(s.peek()) &&  !(s.isEmpty()))){
+						
+						if (!s.isEmpty()){
+						char a = s.pop();
+						cpostfix[index] = a;
+						index++;
+						
 						}
-						s.push(c);
-					}else{
-						s.push(c);
 					}
+					s.push(c);
+					
 				}
 			}
 		}
