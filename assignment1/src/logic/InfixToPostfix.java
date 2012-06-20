@@ -17,7 +17,7 @@ public class InfixToPostfix {
 	
 		infixString = input;
 		
-		char[] cpostfix = new char[20];
+		char[] cpostfix = new char[10];
 		
 		int index = 0;
 		
@@ -36,17 +36,21 @@ public class InfixToPostfix {
 					
 				else{
 					
-					while ((pre(c) <= pre(s.peek()) &&  !(s.isEmpty()))){
-						
-						if (!s.isEmpty()){
-						char a = s.pop();
-						cpostfix[index] = a;
-						index++;
-						
+					if ( pre(c) <= pre(s.peek()) ){
+						while ( !(s.isEmpty()) && (pre(c) <= pre(s.peek()) )){
+							
+							if (!s.isEmpty()){
+							char a = s.pop();
+							cpostfix[index] = a;
+							index++;
+							//System.out.println(cpostfix);
+							
+							}
 						}
+						s.push(c);
+					}else{
+						s.push(c);
 					}
-					s.push(c);
-					
 				}
 			}
 		}
@@ -59,6 +63,7 @@ public class InfixToPostfix {
 		
 		System.out.print("Postfix exp: ");
 		System.out.println(cpostfix);
+		
 		
 		return new String(cpostfix);
 	} 

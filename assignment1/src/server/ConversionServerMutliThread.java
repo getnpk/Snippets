@@ -32,7 +32,7 @@ public class ConversionServerMutliThread extends Thread{
 				int evalValue = pe.getValue(processedValue);
 				
 				//out.println(processedValue);
-				System.out.println("Server says: " + processedValue);
+				//System.out.println("Server says: " + processedValue);
 				out.println(evalValue);
 				System.out.println("Postfix evaluation: " + evalValue);
 			}
