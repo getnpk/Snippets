@@ -4,7 +4,8 @@ import java.util.*;
 
 public class BuildWords {
 
-	String[] wordlist = {"cat","dog","map","cap","abopt","crap"};
+	String[] wordlist = {"parc","god","cat","dog","map","cap","crap"};
+	
 	
 	Map<Character, ArrayList<String>> wordmap;
 	
