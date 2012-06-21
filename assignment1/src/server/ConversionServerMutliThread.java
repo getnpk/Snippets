@@ -5,6 +5,7 @@ import java.net.*;
 
 import logic.InfixToPostfix;
 import logic.PostfixEvaluation;
+import logic.ValidateInput;
 
 public class ConversionServerMutliThread extends Thread{
 
@@ -15,6 +16,7 @@ public class ConversionServerMutliThread extends Thread{
 		this.socket = socket;
 	}
 	
+		
 	public void run(){
 
 		String input;
@@ -28,13 +30,19 @@ public class ConversionServerMutliThread extends Thread{
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
 			while ((input = in.readLine()) != null){
-				String processedValue = ip.getValue(input);
-				int evalValue = pe.getValue(processedValue);
 				
-				//out.println(processedValue);
-				//System.out.println("Server says: " + processedValue);
-				out.println(evalValue);
-				System.out.println("Postfix evaluation: " + evalValue);
+				// assuming server is doing the infix string validation
+				if (new ValidateInput().isOkay(input)){
+				
+					String processedValue = ip.getValue(input);
+					int evalValue = pe.getValue(processedValue);
+					//out.println(processedValue);
+					//System.out.println("Server says: " + processedValue);
+					out.println(evalValue);
+					System.out.println("Postfix evaluation: " + evalValue);
+				}else{
+					out.println("Incorrect infix exp, use 0-9 , supported ops!");
+				}
 			}
 		
 			in.close();
