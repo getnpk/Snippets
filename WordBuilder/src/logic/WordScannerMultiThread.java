@@ -13,19 +13,27 @@ public class WordScannerMultiThread implements Runnable{
 	
 	char[][] board;
 	Map<Character, ArrayList<String>> wordmap;
-	ArrayList<String> thewordlist;
+	public static ArrayList<String> thewordlist = new ArrayList<String>();
 	
-	char i, j;
+	int i, j;
 	
-	public WordScannerMultiThread(char i, char j){
+	public WordScannerMultiThread(int i, int j){
 		
 		board = new BuildBoard().getBoard();
 		wordmap = new BuildWords().getWordMap();
-		thewordlist = new ArrayList<String>();
+		//thewordlist = new ArrayList<String>();
 		this.i =i;
 		this.j =j;
 		
 	}
+	
+	
+	public ArrayList<String> getWordList(){
+		
+		return thewordlist;
+		
+	}
+	
 	
 	@Override
 	public void run() {
@@ -50,8 +58,10 @@ public class WordScannerMultiThread implements Runnable{
 							k = i-1;
 							while (k > 0){
 								sbuffer.append(board[k][j]);
-								if (wordmap.get(letter).contains(sbuffer.toString().trim()))
-									thewordlist.add(sbuffer.toString().trim());
+								synchronized(this){
+									if (wordmap.get(letter).contains(sbuffer.toString().trim()))
+										thewordlist.add(sbuffer.toString().trim());
+								}
 								k--;
 							}
 		
@@ -63,8 +73,10 @@ public class WordScannerMultiThread implements Runnable{
 							k = i+1;
 							while (k < board[i].length){
 								sbuffer.append(board[k][j]);
+								synchronized(this){
 								if (wordmap.get(letter).contains(sbuffer.toString().trim()))
 									thewordlist.add(sbuffer.toString().trim());
+								}
 								k++;
 							}
 							break;
@@ -76,8 +88,11 @@ public class WordScannerMultiThread implements Runnable{
 							k = j+1;
 							while (k < board[i].length){
 								sbuffer.append(board[i][k]);
+								synchronized(this){
 								if (wordmap.get(letter).contains(sbuffer.toString().trim()))
 									thewordlist.add(sbuffer.toString().trim());
+									//System.out.println(thewordlist);
+								}
 								k++;
 							}
 							break;
@@ -88,8 +103,10 @@ public class WordScannerMultiThread implements Runnable{
 							k = j-1;
 							while (k > 0){
 								sbuffer.append(board[i][k]);
+								synchronized(this){
 								if (wordmap.get(letter).contains(sbuffer.toString().trim()))
 									thewordlist.add(sbuffer.toString().trim());
+								}
 								k--;
 							}
 		
