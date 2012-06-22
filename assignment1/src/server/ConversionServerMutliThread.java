@@ -22,12 +22,13 @@ public class ConversionServerMutliThread extends Thread{
 		String input;
 		InfixToPostfix ip = new InfixToPostfix();
 		PostfixEvaluation pe = new PostfixEvaluation();
-		
+		PrintWriter out;
+		BufferedReader in;
 		
 		try{
 			
-			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			out = new PrintWriter(socket.getOutputStream(), true);
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
 			while ((input = in.readLine()) != null){
 				
@@ -51,6 +52,7 @@ public class ConversionServerMutliThread extends Thread{
 
 		}catch(IOException e){
 			e.printStackTrace();
+		}finally{
 		}
 		
 		
