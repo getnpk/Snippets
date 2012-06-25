@@ -49,7 +49,7 @@ public class WordScanner {
 							sbuffer = new StringBuffer();
 							sbuffer.append(letter);
 							k = i-1;
-							while (k > 0){
+							while (k >= 0){
 								sbuffer.append(board[k][j]);
 								if (wordmap.get(letter).contains(sbuffer.toString().trim()))
 									thewordlist.add(sbuffer.toString().trim());
@@ -87,7 +87,7 @@ public class WordScanner {
 							sbuffer = new StringBuffer();
 							sbuffer.append(letter);
 							k = j-1;
-							while (k > 0){
+							while (k >= 0){
 								sbuffer.append(board[i][k]);
 								if (wordmap.get(letter).contains(sbuffer.toString().trim()))
 									thewordlist.add(sbuffer.toString().trim());
