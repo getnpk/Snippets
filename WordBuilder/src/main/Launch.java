@@ -22,17 +22,19 @@ public class Launch {
 		}
 		*/
 		
+		/*
+		 * This is the sequential version
+		 */
 		
 		/*
-		 * 
-		 * This is the sequential version
-		 * 
 		System.out.printf("%n%s%n", "Words in table: ");
 		ArrayList<String> thelist = new WordScanner().getWords();
 		System.out.println(thelist);
 		*/
 		
-		//TODO Multithread need checking
+		/*
+		 * Multithread need checking
+		 */
 		
 		System.out.printf("%n%s%n", "Words in table: ");
 		ArrayList<String> thelist = new WordScannerTLauncher().getWords();

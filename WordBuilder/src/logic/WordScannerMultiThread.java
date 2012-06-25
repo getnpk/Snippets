@@ -12,7 +12,7 @@ public class WordScannerMultiThread implements Runnable{
 
 	
 	char[][] board;
-	Map<Character, ArrayList<String>> wordmap;
+	private static Map<Character, ArrayList<String>> wordmap;
 	public static ArrayList<String> thewordlist = new ArrayList<String>();
 	
 	int i, j;
@@ -21,7 +21,7 @@ public class WordScannerMultiThread implements Runnable{
 		
 		board = new BuildBoard().getBoard();
 		wordmap = new BuildWords().getWordMap();
-		//thewordlist = new ArrayList<String>();
+		
 		this.i =i;
 		this.j =j;
 		
@@ -34,6 +34,11 @@ public class WordScannerMultiThread implements Runnable{
 		
 	}
 	
+	// add to after synchronisation
+	public static synchronized void checkAndAdd(StringBuffer sbuffer, char letter){
+		if (wordmap.get(letter).contains(sbuffer.toString().trim()) && !(thewordlist.contains(sbuffer.toString().trim())))
+			thewordlist.add(sbuffer.toString().trim());
+	}
 	
 	@Override
 	public void run() {
@@ -56,12 +61,9 @@ public class WordScannerMultiThread implements Runnable{
 							sbuffer = new StringBuffer();
 							sbuffer.append(letter);
 							k = i-1;
-							while (k > 0){
+							while (k >= 0){
 								sbuffer.append(board[k][j]);
-								synchronized(this){
-									if (wordmap.get(letter).contains(sbuffer.toString().trim()))
-										thewordlist.add(sbuffer.toString().trim());
-								}
+								checkAndAdd(sbuffer, letter);
 								k--;
 							}
 		
@@ -73,10 +75,7 @@ public class WordScannerMultiThread implements Runnable{
 							k = i+1;
 							while (k < board[i].length){
 								sbuffer.append(board[k][j]);
-								synchronized(this){
-								if (wordmap.get(letter).contains(sbuffer.toString().trim()))
-									thewordlist.add(sbuffer.toString().trim());
-								}
+								checkAndAdd(sbuffer, letter);
 								k++;
 							}
 							break;
@@ -88,11 +87,7 @@ public class WordScannerMultiThread implements Runnable{
 							k = j+1;
 							while (k < board[i].length){
 								sbuffer.append(board[i][k]);
-								synchronized(this){
-								if (wordmap.get(letter).contains(sbuffer.toString().trim()))
-									thewordlist.add(sbuffer.toString().trim());
-									//System.out.println(thewordlist);
-								}
+								checkAndAdd(sbuffer, letter);
 								k++;
 							}
 							break;
@@ -101,12 +96,9 @@ public class WordScannerMultiThread implements Runnable{
 							sbuffer = new StringBuffer();
 							sbuffer.append(letter);
 							k = j-1;
-							while (k > 0){
+							while (k >= 0){
 								sbuffer.append(board[i][k]);
-								synchronized(this){
-								if (wordmap.get(letter).contains(sbuffer.toString().trim()))
-									thewordlist.add(sbuffer.toString().trim());
-								}
+								checkAndAdd(sbuffer, letter);
 								k--;
 							}
 		
