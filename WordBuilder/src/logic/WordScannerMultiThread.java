@@ -12,7 +12,8 @@ public class WordScannerMultiThread implements Runnable{
 
 	
 	char[][] board;
-	private static Map<Character, ArrayList<String>> wordmap;
+	
+	private static Map<Character, ArrayList<String>> wordmap = new BuildWords().getWordMap();
 	public static ArrayList<String> thewordlist = new ArrayList<String>();
 	
 	int i, j;
@@ -20,7 +21,6 @@ public class WordScannerMultiThread implements Runnable{
 	public WordScannerMultiThread(int i, int j){
 		
 		board = new BuildBoard().getBoard();
-		wordmap = new BuildWords().getWordMap();
 		
 		this.i =i;
 		this.j =j;
