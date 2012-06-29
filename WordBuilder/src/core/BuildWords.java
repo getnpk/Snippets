@@ -37,6 +37,15 @@ public class BuildWords {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			
+		}finally{
+			
+			try {
+				resultset.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			job.closeAll();
 		}
 		
 		
