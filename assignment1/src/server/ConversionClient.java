@@ -7,6 +7,7 @@ public class ConversionClient {
 
 	public static void main (String[] args) throws IOException{
 	
+	
 		Socket clientSocket = null;
 		PrintWriter out = null;
 		BufferedReader in = null;

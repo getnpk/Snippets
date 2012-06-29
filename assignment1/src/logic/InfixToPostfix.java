@@ -1,11 +1,15 @@
 package logic;
 
 import ds.MyStack;
+import ds.GStack;
 
 public class InfixToPostfix {
 
 	String infixString = "a*d-c+f/5";
 	
+	// use Generic stack, not done.
+	GStack<String> thestack = new GStack<String>();
+
 	public static int pre(char c){
 		if (c == '+' || c == '-')
 			return 10;
@@ -14,7 +18,7 @@ public class InfixToPostfix {
 	}
 	
 	public String getValue(String input){
-	
+		
 		infixString = input;
 		
 		char[] cpostfix = new char[10];

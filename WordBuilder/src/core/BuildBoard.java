@@ -1,19 +1,29 @@
 package core;
 
+import java.util.ArrayList;
+
 public class BuildBoard {
 
-	public static final int GRIDSIZE = 5;
+	public int GRIDSIZE = 5;
 	
-	char [][] board = new char[GRIDSIZE][GRIDSIZE];
+	char [][] board;
 	
-	char [] letters = {'a','b','o', 'p','t','c','a','t','j','c','a','d','o','g','r','p','m','a','p','a','r','o','l','n','p'};
+	//char [] letters = {'a','b','o', 'p','t','c','a','t','j','c','a','d','o','g','r','p','m','a','p','a','r','o','l','n','p'};
+	
+	ArrayList<Character> letters;
+	
+	DataIO dr = new DataIO();
 	
 	public BuildBoard(){
+		
+		letters = dr.getclist();
+		GRIDSIZE = dr.getGridSize();
+		board = new char[GRIDSIZE][GRIDSIZE];
 		
 		// populate grid
 		for (int i =0; i < board.length; i++){
 			for (int j =0; j< board[i].length; j++){
-				board[i][j] = letters[i*GRIDSIZE + j];
+				board[i][j] = letters.get(i*GRIDSIZE + j);
 			}
 		}
 	}
