@@ -20,7 +20,8 @@ public class BuildWords {
 	
 	public BuildWords(){
 		
-		// to check jdbc
+		/*
+		// to check jdbc optional
 		words = new ArrayList<String>();
 		
 		resultset = job.executeSQL("select word from worddump");
@@ -47,7 +48,7 @@ public class BuildWords {
 			}
 			job.closeAll();
 		}
-		
+		*/
 		
 		// older 
 		
