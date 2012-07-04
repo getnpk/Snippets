@@ -4,9 +4,26 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     version="2.4">
 
+
+   	<context-param>
+		<param-name>adminEmail</param-name>
+		<param-value>adminnpk@gmail.com</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>brand</param-name>
+		<param-value>tuberg</param-value>
+	</context-param>
+		
     <servlet>
         <servlet-name>BeerServlet</servlet-name>
         <servlet-class>com.example.web.BeerSelect</servlet-class>
+        
+    	<init-param>
+			<param-name>adminEmail</param-name>
+			<param-value>getnpk@gmail.com</param-value>
+		</init-param>
+		
     </servlet>
 
     <servlet-mapping>
@@ -14,5 +31,13 @@
         <url-pattern>/BeerSelect</url-pattern>
     </servlet-mapping>
 
-
+	
+	<listener>
+		<listener-class>
+			com.example.listener.BeerContextListener
+		</listener-class>
+	</listener>
+	
 </web-app>
+
+
