@@ -31,12 +31,27 @@
         <url-pattern>/BeerSelect</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>CheckCookie</servlet-name>
+        <servlet-class>com.example.web.CheckCookie</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CheckCookie</servlet-name>
+        <url-pattern>/checkcookie.do</url-pattern>
+    </servlet-mapping>
 	
 	<listener>
 		<listener-class>
 			com.example.listener.BeerContextListener
 		</listener-class>
 	</listener>
+	
+	
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
 	
 </web-app>
 
