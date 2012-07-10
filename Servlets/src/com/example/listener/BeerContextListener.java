@@ -8,6 +8,7 @@ import com.example.model.Beer;
 
 public class BeerContextListener implements ServletContextListener{
 
+	
 	@Override
 	public void contextDestroyed(ServletContextEvent event) {
 		
