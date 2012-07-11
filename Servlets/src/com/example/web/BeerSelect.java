@@ -24,9 +24,6 @@ public class BeerSelect extends HttpServlet{
 		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
 		
-		
-		
-		
 		out.println("Beer Selection Advice<br>");
 		
 		String color = req.getParameter("color");

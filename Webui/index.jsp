@@ -1,0 +1,11 @@
+<HTML>
+<BODY>
+<FORM METHOD=POST ACTION="Confirm">
+
+Username: <INPUT TYPE=TEXT NAME=username SIZE=20><BR>
+Password: <INPUT TYPE=PASSWORD NAME=password SIZE=20><BR>
+
+<P><INPUT TYPE=SUBMIT>
+</FORM>
+</BODY>
+</HTML>
