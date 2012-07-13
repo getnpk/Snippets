@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -33,9 +34,8 @@ public class ConfirmServlet extends HttpServlet{
 	private HttpSession session;
 	
 	
-	@Override
-	public void init() throws ServletException {
-		super.init();
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
 		
 		db_username = getServletContext().getInitParameter("db_username");
 		db_password = getServletContext().getInitParameter("db_password");

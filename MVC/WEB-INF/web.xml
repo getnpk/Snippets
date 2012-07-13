@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+
+   	<context-param>
+		<param-name>db_username</param-name>
+		<param-value>root</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>db_password</param-name>
+		<param-value></param-value>
+	</context-param>
+		
+	<context-param>
+		<param-name>db_database</param-name>
+		<param-value>mytestdb</param-value>
+	</context-param>
+	
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>controller.Login</servlet-class>
+        
+    	<init-param>
+			<param-name>adminEmail</param-name>
+			<param-value>getnpk@gmail.com</param-value>
+		</init-param>
+		
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>controller.Register</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/Register</url-pattern>
+    </servlet-mapping>
+    
+
+	<servlet>
+        <servlet-name>HomeServlet</servlet-name>
+        <servlet-class>controller.Home</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern>/Home</url-pattern>
+    </servlet-mapping>
+    
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	
+</web-app>
+
+
