@@ -2,17 +2,18 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import view.JDBCConnect;
+import org.apache.log4j.Logger;
 
 import model.User;
+import view.JDBCConnect;
 
 public class Register extends HttpServlet{
 
@@ -28,15 +29,17 @@ public class Register extends HttpServlet{
 	private JDBCConnect connect;
 	
 	private User user;
+	private static Logger logger = Logger.getLogger(Register.class);
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
+		ServletContext servletContext = config.getServletContext();
 		
-		db_username = getServletContext().getInitParameter("db_username");
-		db_password = "";
-		db_database = getServletContext().getInitParameter("db_database");
+		db_username = servletContext.getInitParameter("db_username");
+		db_password = servletContext.getInitParameter("db_password");
+		db_database = servletContext.getInitParameter("db_database");
 		
+		logger.debug(db_database);
 		user = new User();
 		
 		connect = JDBCConnect.getObject(db_username, db_password, db_database);
@@ -82,9 +85,8 @@ public class Register extends HttpServlet{
 		user.setLastname(request.getParameter("lastname"));
 	
 		
-		connect.setAll(user);
+		//connect.setAll(user);
 		
-		/*
 		try{
 			connect.setAll(user);
 			
@@ -93,7 +95,6 @@ public class Register extends HttpServlet{
 		}finally{
 			
 		}
-		*/
 		
 		out.println("<br>Successfully registerd");
 		

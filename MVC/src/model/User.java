@@ -39,4 +39,8 @@ public class User {
 		return lastname;
 	}
 	
+	public String toString(){
+		return String.format("%s %s %s %s", firstname, lastname, username, password);
+	}
+	
 }
