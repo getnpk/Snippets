@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -10,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 
 import model.User;
 
@@ -27,6 +30,8 @@ public class Login extends HttpServlet{
 	private JDBCConnect connect;
 	
 	private Boolean flag;
+
+	private static Logger logger = Logger.getLogger(Login.class.getName());
 	
 	public void init(ServletConfig config) throws ServletException {
 		
@@ -37,6 +42,8 @@ public class Login extends HttpServlet{
 		db_database = servletContext.getInitParameter("db_database");
 				
 		connect = JDBCConnect.getObject(db_username, db_password , db_database);
+		
+		logger.info("Connection established at Login: " + connect);
 		
 		user = new User();
 		flag = false;
@@ -89,7 +96,6 @@ public class Login extends HttpServlet{
 
 			RequestDispatcher view = request.getRequestDispatcher("Home");
 			view.forward(request, response);
-
 
 		}else{
 			out.println("<br>Something is wrong! <br>");

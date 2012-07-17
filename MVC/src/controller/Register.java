@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import model.User;
@@ -29,7 +30,7 @@ public class Register extends HttpServlet{
 	private JDBCConnect connect;
 	
 	private User user;
-	private static Logger logger = Logger.getLogger(Register.class);
+	private static Logger logger = Logger.getLogger(Register.class.getName());
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -39,11 +40,12 @@ public class Register extends HttpServlet{
 		db_password = servletContext.getInitParameter("db_password");
 		db_database = servletContext.getInitParameter("db_database");
 		
-		logger.debug(db_database);
+		logger.setLevel(Level.INFO);
+		
 		user = new User();
 		
 		connect = JDBCConnect.getObject(db_username, db_password, db_database);
-		
+		logger.info("Register: " + connect);
 	}
 
 
@@ -54,6 +56,9 @@ public class Register extends HttpServlet{
 
 		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
+		
+		logger.info( "Register database: " + db_database);
+		logger.info( "Register connection: " + connect);
 		
 		out.println("<html><title>Welcome</title><body>");
 		out.println("<h2> Registration form</h2>");

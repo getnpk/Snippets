@@ -17,6 +17,8 @@ import model.User;
 public class JDBCConnect{
 
 	private static final String DataBase_URL = "jdbc:mysql://localhost/";
+	private static Logger logger = Logger.getLogger(JDBCConnect.class.getName());
+	
 	String username;
 	String password;
 	String db;
@@ -27,8 +29,6 @@ public class JDBCConnect{
 	ResultSet resultset;
 
 	private static JDBCConnect jdbcconnect;
-	
-	private static Logger logger = Logger.getLogger(JDBCConnect.class.getName());
 	
 	private PreparedStatement setAllStatement = null;
 	private PreparedStatement passStatement = null;
@@ -45,7 +45,7 @@ public class JDBCConnect{
 	
 	private JDBCConnect(String username, String password, String db){
 		
-		//logger.setLevel(Level.INFO);
+		
 		logger.debug(username);
 		logger.debug(password);
 		this.username = username;
@@ -66,7 +66,6 @@ public class JDBCConnect{
 			logger.debug(" established connection "+connection.getAutoCommit());
 			statement = connection.createStatement();
 			logger.debug(" created statement "+statement);
-			
 			
 			// Prepared Statements
 			getUserDetailsStatement = connection.prepareStatement("select * from users where username = ?");
@@ -96,7 +95,7 @@ public class JDBCConnect{
 			setAllStatement.setString(3, user.getUsername());
 			setAllStatement.setString(4, user.getPassword());
 			
-			System.out.println(setAllStatement);
+			logger.info(setAllStatement);
 			
 			result = setAllStatement.executeUpdate();
 			
@@ -133,7 +132,7 @@ public class JDBCConnect{
 					username = resultset.getString("username");
 					password = resultset.getString("password");
 					
-					System.out.println("Username " + username + " Password " + password);
+					logger.info("Username " + username + " Password " + password);
 					
 					flag = true;
 					break;
