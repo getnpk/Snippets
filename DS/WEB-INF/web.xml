@@ -29,7 +29,6 @@
     <url-pattern>/Logout</url-pattern>
 </servlet-mapping>
     
-
 <servlet>
     <servlet-name>RegisterServlet</servlet-name>
     <servlet-class>com.web.controller.Register</servlet-class>

@@ -22,7 +22,7 @@ Lastname: <INPUT TYPE=PASSWORD NAME=lastname SIZE=20><BR>
 	}
 %>
 
-<P><a href="Login">Login</a>
+<P><a href="index.jsp">Login</a>
 
 
 </body>
