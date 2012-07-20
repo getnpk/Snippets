@@ -23,7 +23,13 @@ import javax.swing.JLabel;
 import java.sql.Blob;
 
 
-
+/*
+ * 
+ * create table files (id int not null auto_increment primary key, filename varchar(50), filetype varchar(20), 
+ * filesize varchar(20), filelocation varchar(50), user_requested varchar(20), file longblob);
+ * 
+ * 
+ * */
 
 public class JDBCTest {
 
