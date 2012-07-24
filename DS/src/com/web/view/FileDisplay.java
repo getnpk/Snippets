@@ -1,23 +1,26 @@
 package com.web.view;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class FileDisplay {
 
 	
-	public static void main(String args[]){
-	File file = new File("/usr/local/tomcat7/webapps/DS/dump");
-	System.out.println(file.isDirectory());
+	ArrayList<File> files;
 	
-	for (File f : file.listFiles()){
-		System.out.println(f.getName());
+	JDBCConnect con;
+	
+	public FileDisplay(){
+		
+		files = new ArrayList<File>();
+		
+		con = JDBCConnect.getObject("root", "", "mytestdb");
+		
 	}
 	
-	}
 	
-	public File[] getFiles(){
-		File file = new File("/usr/local/tomcat7/webapps/DS/dump");
-		return file.listFiles();
+	public ArrayList<File> getFiles(){
+		return con.getFiles();
 	}
 	
 	

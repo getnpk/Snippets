@@ -7,7 +7,7 @@
 Username: <INPUT TYPE=TEXT NAME=username SIZE=20><BR>
 Password: <INPUT TYPE=PASSWORD NAME=password SIZE=20><BR>
 Firstname: <INPUT TYPE=TEXT NAME=firstname SIZE=20><BR>
-Lastname: <INPUT TYPE=PASSWORD NAME=lastname SIZE=20><BR>
+Lastname: <INPUT TYPE=TEXT NAME=lastname SIZE=20><BR>
 
 <P><INPUT TYPE=SUBMIT VALUE="Register">
 

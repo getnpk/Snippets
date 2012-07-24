@@ -1,5 +1,10 @@
 package com.web.view;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,13 +16,14 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 
 import com.web.model.User;
 
 public class JDBCConnect{
 
 	private static final String DataBase_URL = "jdbc:mysql://localhost/";
-	private static Logger logger = Logger.getLogger(JDBCConnect.class.getName());
+	private static Logger logger = Logger.getLogger(JDBCConnect.class);
 	
 	String username;
 	String password;
@@ -33,6 +39,8 @@ public class JDBCConnect{
 	private PreparedStatement setAllStatement = null;
 	private PreparedStatement passStatement = null;
 	private PreparedStatement getUserDetailsStatement = null;
+	private PreparedStatement loadStatement = null;
+	private PreparedStatement getFileStatement = null;
 	
 	public static JDBCConnect getObject(String username, String password, String db){
 		
@@ -73,6 +81,12 @@ public class JDBCConnect{
 			setAllStatement = connection.prepareStatement("insert into users (firstname, lastname, username, password) values (?,?,?,sha(?))");
 			
 			passStatement = connection.prepareStatement("select username , password from users where username = ? and password = sha(?)");
+			
+			loadStatement = connection.prepareStatement("insert into files(filename, filetype, filesize, " +
+				"filelocation, user_requested, file ) values(?,?,?,?,?,?)");
+		
+			getFileStatement = connection.prepareStatement("select file from files where filename = ?");
+			
 		} catch (SQLException e) {
 
 			e.printStackTrace();
@@ -110,6 +124,82 @@ public class JDBCConnect{
 		}
 		
 	}
+	
+	
+	
+	public Boolean load(File file){
+		
+		
+		Boolean isOkay = false;
+		int result;
+		
+		FileInputStream fis = null;
+		
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e1) {
+			System.out.println("file not found ehre!!!!!!!");
+			e1.printStackTrace();
+			isOkay = false;
+		}
+		
+		try {
+		
+			loadStatement.setString(1, file.getName());
+			loadStatement.setString(2, file.getName().split("\\.")[file.getName().split("\\.").length - 1]);
+			loadStatement.setFloat(3, (file.length()/1024));
+			loadStatement.setString(4, file.getAbsolutePath());
+			loadStatement.setString(5, "default");
+			loadStatement.setBinaryStream(6, fis, (int)file.length());
+			
+			logger.info(loadStatement);
+			
+			result = loadStatement.executeUpdate();
+			
+			isOkay = true;
+			
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+			isOkay = false;
+			
+		}finally{
+			 
+			try {
+				fis.close();
+			} catch (IOException e) {
+				 
+				e.printStackTrace();
+			} 
+			
+		}
+		
+		return isOkay;
+		
+	}
+	
+	
+	public Blob getFile(String filename){
+		
+		int result;
+		Blob blob = null;
+		
+		try {
+			
+			getFileStatement.setString(1, filename);
+			logger.info(loadStatement);
+			resultset = getFileStatement.executeQuery();
+			resultset.next();
+			blob = resultset.getBlob("file");
+			
+		} catch (SQLException e) {
+			 
+			e.printStackTrace();
+		}
+		
+		return blob;
+	}
+	
 	
 	public Boolean pass(User user){
 		
@@ -150,6 +240,25 @@ public class JDBCConnect{
 		
 	}
 	
+	
+	public ArrayList<File> getFiles(){
+		
+		ArrayList<File> files = new ArrayList<File>();
+		
+		String sql = "select filename from files";
+		
+		try {
+			resultset = statement.executeQuery(sql);
+			while (resultset.next()){
+				files.add(new File(resultset.getString("filename")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return files;
+	}
 	
 	
 	public User getUserDetails(String username){

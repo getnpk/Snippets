@@ -1,11 +1,13 @@
-<%@ page import="com.web.model.*, com.web.view.*, java.io.*" %>
+<%@ page import="com.web.model.*, com.web.view.*, java.io.*, java.util.*" %>
 
 <html>
 <body>
-<P><a align=right href="Logout">Logout</a>
+<P><a float="right" href="Logout"">Logout</a>
 
-<h2>Download Page</h2>
+<h2>Download Page</h2> 
 <%
+
+	new Loader().load();
 
 	if (session.getAttribute("username") == null)
 		response.sendRedirect("index.jsp");
@@ -16,11 +18,13 @@
 
 <h4> Hello, <%=session.getAttribute("username") %></h4>
 <%
-	File[] files = new FileDisplay().getFiles();
+	ArrayList<File> files = new FileDisplay().getFiles();
+
 	for (File f : files){
 %>
-	<a href="Download?value=<%=f.getName()%>"><%=f.getName()%></a><br>
+	<a href="Download?filename=<%=f.getName()%>"><%=f.getName()%></a><br>
 <%		
+
 	}
 %>
 
