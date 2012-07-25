@@ -102,7 +102,9 @@ public class Download extends HttpServlet{
         } else if (filename.indexOf("jar") > 0) {
             response.setContentType("application/jar");
         }
-
+		
+		response.setHeader("Content-Disposition","attachment;filename=" + filename);
+		
 		try {
 			blob = connect.getFile(filename);
 			b = blob.getBytes(1, (int)blob.length());
