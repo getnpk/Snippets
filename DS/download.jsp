@@ -5,8 +5,20 @@
 <P><a float="right" href="Logout"">Logout</a>
 
 <h2>Download Page</h2> 
-<%
 
+
+<FORM METHOD=POST ACTION="download.jsp">
+
+Filetype/Filename: <INPUT TYPE=TEXT NAME=filename SIZE=20><BR><BR>
+
+
+<P><INPUT TYPE=SUBMIT VALUE="Filter"><BR>
+
+</FORM>
+
+
+<%
+	
 	new Loader().load();
 
 	if (session.getAttribute("username") == null)
@@ -17,14 +29,45 @@
 %>
 
 <h4> Hello, <%=session.getAttribute("username") %></h4>
+
 <%
-	ArrayList<File> files = new FileDisplay().getFiles();
-
-	for (File f : files){
+	String filename = request.getParameter("filename");
+	
+	ArrayList<DBFile> files = new FileDisplay().getFiles(filename);
+	
 %>
-	<a href="Download?filename=<%=f.getName()%>"><%=f.getName()%></a><br>
-<%		
+	
+<%
+	
+	if (!files.isEmpty()){
+%>
 
+	<table border="1" width = 100%>
+	<tr>
+		<th width = 50%>Filename</th>
+		<th width = 10%>Filetype</th>
+		<th width = 10%>Filesize (KB)</th>
+		<th width = 30%>User Requested</th>
+	</tr>
+	</table>
+<%		
+	for (DBFile f : files){
+%>	
+	<table border="1" width = 100%>
+	<tr>
+		<td width = 50%><a href="Download?filename=<%=f.getFilename()%>"><%=f.getFilename()%></a></td>
+		<td width = 10%><%= f.getFiletype() %></td>
+		<td width = 10%><%= f.getFilesize() %></td>
+		<td width = 30%><%= f.getUserRequested() %></td>
+	</tr>
+	</table> 
+	
+<%		
+		}
+	}else{
+%>
+	<h2> No files found, empty!</h2>
+<%		
 	}
 %>
 

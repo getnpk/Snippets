@@ -3,6 +3,8 @@ package com.web.view;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.web.model.DBFile;
+
 public class FileDisplay {
 
 	
@@ -19,8 +21,8 @@ public class FileDisplay {
 	}
 	
 	
-	public ArrayList<File> getFiles(){
-		return con.getFiles();
+	public ArrayList<DBFile> getFiles(String filename){
+		return con.getFiles(filename);
 	}
 	
 	

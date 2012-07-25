@@ -23,11 +23,13 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.web.model.DBFile;
 import com.web.model.User;
 
 public class JDBCConnect{
 
 	private static final String DataBase_URL = "jdbc:mysql://localhost/";
+	
 	private static Logger logger = Logger.getLogger(JDBCConnect.class);
 	
 	String username;
@@ -46,6 +48,7 @@ public class JDBCConnect{
 	private PreparedStatement getUserDetailsStatement = null;
 	private PreparedStatement loadStatement = null;
 	private PreparedStatement getFileStatement = null;
+	private PreparedStatement getFilesStatement = null;
 	
 	public static JDBCConnect getObject(String username, String password, String db){
 		
@@ -108,12 +111,48 @@ public class JDBCConnect{
 		
 			getFileStatement = connection.prepareStatement("select file from files where filename = ?");
 			
+			getFilesStatement = connection.prepareStatement("select filename, filetype, filesize, user_requested from files where filename like ?");
+			
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		}
 	}
 
+	
+	public ArrayList<DBFile> getFiles(String filename){
+		
+		ArrayList<DBFile> files = new ArrayList<DBFile>();
+		
+		if (filename == null ){
+			filename = "%";
+		}else{
+			filename = "%" + filename + "%";
+		}
+		
+		try {
+			
+			getFilesStatement.setString(1, filename.toLowerCase());
+		
+			resultset = getFilesStatement.executeQuery();
+			
+			while (resultset.next()){
+				DBFile dbfile = new DBFile();
+				dbfile.setFilename(resultset.getString("filename"));
+				dbfile.setFilesize(resultset.getString("filesize"));
+				dbfile.setFiletype(resultset.getString("filetype"));
+				dbfile.setUserRequested(resultset.getString("user_requested"));
+				
+				files.add(dbfile);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return files;
+	}
+	
 
 	// set all fields in table
 	
@@ -259,26 +298,6 @@ public class JDBCConnect{
 		else
 			return false;
 		
-	}
-	
-	
-	public ArrayList<File> getFiles(){
-		
-		ArrayList<File> files = new ArrayList<File>();
-		
-		String sql = "select filename from files";
-		
-		try {
-			resultset = statement.executeQuery(sql);
-			while (resultset.next()){
-				files.add(new File(resultset.getString("filename")));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return files;
 	}
 	
 	
