@@ -4,6 +4,16 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     version="2.4">
 
+ <description>Suepr dooper App</description>
+
+  <resource-ref>
+      <description>DB Connection</description>
+      <res-ref-name>jdbc/testdb</res-ref-name>
+      <res-type>javax.sql.DataSource</res-type>
+      <res-auth>Container</res-auth>
+  </resource-ref>
+
+
     <context-param>
 <param-name>db_username</param-name>
 <param-value>root</param-value>

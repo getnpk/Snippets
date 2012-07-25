@@ -18,6 +18,11 @@ import org.apache.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import com.web.model.User;
 
 public class JDBCConnect{
@@ -29,10 +34,10 @@ public class JDBCConnect{
 	String password;
 	String db;
 	
-	Connection connection;
-	Connection connection_two;
-	Statement statement;
-	ResultSet resultset;
+	private DataSource datasource;
+	private Connection connection;
+	private Statement statement;
+	private ResultSet resultset;
 
 	private static JDBCConnect jdbcconnect;
 	
@@ -61,6 +66,20 @@ public class JDBCConnect{
 		this.db = db;
 		
 		try {
+
+			
+			try {
+				Context context = new InitialContext();
+				Context envContext = (Context) context.lookup("java:comp/env");
+				datasource =  (DataSource)envContext.lookup("jdbc/testdb");
+			} catch (NamingException e1) {
+				e1.printStackTrace();
+			}
+			
+			connection = datasource.getConnection();
+			statement = connection.createStatement();
+			
+			/*
 			try {
 				Class.forName ("com.mysql.jdbc.Driver").newInstance ();
 			} catch (InstantiationException e) {
@@ -74,6 +93,8 @@ public class JDBCConnect{
 			logger.debug(" established connection "+connection.getAutoCommit());
 			statement = connection.createStatement();
 			logger.debug(" created statement "+statement);
+			*/
+			
 			
 			// Prepared Statements
 			getUserDetailsStatement = connection.prepareStatement("select * from users where username = ?");
