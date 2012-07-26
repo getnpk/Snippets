@@ -15,9 +15,7 @@ public class FileDisplay {
 	public FileDisplay(){
 		
 		files = new ArrayList<File>();
-		
 		con = JDBCConnect.getObject("root", "", "mytestdb");
-		
 	}
 	
 	

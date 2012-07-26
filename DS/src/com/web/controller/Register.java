@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -47,16 +48,20 @@ public void init(ServletConfig config) throws ServletException {
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
 throws ServletException, IOException {
 
-	user.setUsername(request.getParameter("username"));
-	user.setPassword(request.getParameter("password"));
-	user.setFirstname(request.getParameter("firstname"));
-	user.setLastname(request.getParameter("lastname"));
+	Boolean userexists= false;
+	
+	user.setUsername(request.getParameter("rusername"));
+	user.setPassword(request.getParameter("rpassword"));
+	user.setFirstname(request.getParameter("rfirstname"));
+	user.setLastname(request.getParameter("rlastname"));
 
 	
 	try{
-		connect.setAll(user);
-		success = true;
-		logger.info("wrote to db , setAll");
+		if (!userexists){
+			connect.setAll(user);
+			success = true;
+			logger.info("wrote to db , setAll");
+		}
 	}catch(Exception e){
 		logger.info("Failed to write to db");
 	}finally{
@@ -64,6 +69,8 @@ throws ServletException, IOException {
 	}
 	
 	if(success){
+		HttpSession session = request.getSession(true);
+		session.invalidate();
 		RequestDispatcher view = request.getRequestDispatcher("index.jsp");
 		view.forward(request, response);
 	}else{

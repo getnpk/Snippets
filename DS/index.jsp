@@ -44,6 +44,8 @@ Password: <INPUT TYPE=PASSWORD NAME=password SIZE=20><BR><BR>
 		<i> Message for you: <%= msg %></i>
 <%
 		session.removeAttribute("error");
+		session.setAttribute("error", null);
+
 	}
 %>
 

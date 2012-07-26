@@ -2,7 +2,7 @@
 
 <html>
 <body>
-<P><a align = "right" href="Logout"">Logout</a>
+<P><a align = "right" href="Logout">Logout</a>
 
 <h2>Download Page</h2> 
 
@@ -53,6 +53,7 @@ Filetype/Filename: <INPUT TYPE=TEXT NAME=filename SIZE=20><BR><BR>
 <%		
 	for (DBFile f : files){
 %>	
+	
 	<table border="1" width = 100%>
 	<tr>
 		<td width = 50%><a href="Download?filename=<%=f.getFilename()%>"><%=f.getFilename()%></a></td>
