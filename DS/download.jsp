@@ -2,7 +2,7 @@
 
 <html>
 <body>
-<P><a float="right" href="Logout"">Logout</a>
+<P><a align = "right" href="Logout"">Logout</a>
 
 <h2>Download Page</h2> 
 
