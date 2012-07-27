@@ -33,6 +33,7 @@ Filetype/Filename: <INPUT TYPE=TEXT NAME=filename SIZE=20><BR><BR>
 <%
 	String filename = request.getParameter("filename");
 	
+	
 	ArrayList<DBFile> files = new FileDisplay().getFiles(filename);
 	
 %>

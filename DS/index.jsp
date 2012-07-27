@@ -37,7 +37,7 @@ Password: <INPUT TYPE=PASSWORD NAME=password SIZE=20><BR><BR>
 </FORM>
 
 <%
-
+	
 	if (session.getAttribute("error") != null){
 		String msg = (String) session.getAttribute("error");
 %>
@@ -62,7 +62,7 @@ if (pass){
 	<jsp:forward page="download.jsp"></jsp:forward>
 <%	
 }else{
-	String error_message = "Some went wrong!";
+	String error_message = "Something went wrong!";
 	session.setAttribute("error", error_message);
 }
 %>

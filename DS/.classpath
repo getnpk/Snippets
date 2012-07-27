@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="/home/hadoop/work/Java-Projects/MVC/WEB-INF/lib/mysql-connector-java-5.1.11-bin.jar"/>
 	<classpathentry kind="lib" path="/usr/local/tomcat7/lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="/usr/local/tomcat7/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/home/hadoop/Documents/commons-fileupload-1.2.2.jar" sourcepath="/home/hadoop/Documents/commons-fileupload-1.2.2-src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -4,9 +4,9 @@
 
 <FORM METHOD=POST ACTION="Register">
 
-Username: <INPUT TYPE=TEXT NAME=rusername SIZE=20><BR>
-Password: <INPUT TYPE=PASSWORD NAME=rpassword SIZE=20><BR>
-Firstname: <INPUT TYPE=TEXT NAME=rfirstname SIZE=20><BR>
+Username: <INPUT TYPE=TEXT NAME=rusername SIZE=20><BR><BR>
+Password: <INPUT TYPE=PASSWORD NAME=rpassword SIZE=20><BR><BR>
+Firstname: <INPUT TYPE=TEXT NAME=rfirstname SIZE=20><BR><BR>
 Lastname: <INPUT TYPE=TEXT NAME=rlastname SIZE=20><BR>
 
 <P><INPUT TYPE=SUBMIT VALUE="Register">

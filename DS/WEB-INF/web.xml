@@ -14,9 +14,9 @@
   </resource-ref>
 
 
-    <context-param>
-<param-name>db_username</param-name>
-<param-value>root</param-value>
+<context-param>
+	<param-name>db_username</param-name>
+	<param-value>root</param-value>
 </context-param>
 
 <context-param>
@@ -57,6 +57,18 @@
 <servlet-mapping>
     <servlet-name>DownloadServlet</servlet-name>
     <url-pattern>/Download</url-pattern>
+</servlet-mapping>
+
+
+
+<servlet>
+    <servlet-name>UploadServlet</servlet-name>
+    <servlet-class>com.web.controller.Upload</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>UploadServlet</servlet-name>
+    <url-pattern>/Upload</url-pattern>
 </servlet-mapping>
 
 

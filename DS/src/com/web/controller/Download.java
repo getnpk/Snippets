@@ -1,9 +1,7 @@
 package com.web.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -17,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import com.web.model.User;
 import com.web.view.JDBCConnect;
 
 public class Download extends HttpServlet{
