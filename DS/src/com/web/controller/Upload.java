@@ -17,6 +17,8 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.web.view.Loader;
+
 
 public class Upload extends HttpServlet{
 
@@ -72,6 +74,9 @@ public class Upload extends HttpServlet{
 					}
 					
 				}
+			
+			
+			new Loader().load();
 			
 			req.setAttribute("donefiles", donefiles);
 			RequestDispatcher view = req.getRequestDispatcher("upload.jsp");
