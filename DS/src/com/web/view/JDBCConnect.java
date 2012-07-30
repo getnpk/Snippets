@@ -187,7 +187,7 @@ public class JDBCConnect{
 	
 	
 	
-	public Boolean load(File file){
+	public Boolean load(File file, String uploadername){
 		
 		
 		Boolean isOkay = false;
@@ -209,7 +209,11 @@ public class JDBCConnect{
 			loadStatement.setString(2, file.getName().split("\\.")[file.getName().split("\\.").length - 1]);
 			loadStatement.setFloat(3, (file.length()/1024));
 			loadStatement.setString(4, file.getAbsolutePath());
-			loadStatement.setString(5, "default");
+			
+			if (uploadername == null)
+				uploadername = "admin";
+			
+			loadStatement.setString(5, uploadername);
 			loadStatement.setBinaryStream(6, fis, (int)file.length());
 			
 			logger.info(loadStatement);

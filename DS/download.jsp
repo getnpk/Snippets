@@ -2,7 +2,9 @@
 
 <html>
 <body>
-<P><a align = "right" href="Logout">Logout</a>
+
+<P><a align = "right" href="Logout">Logout</a><BR>
+<P><a align = "right" href="upload.jsp">Upload</a>
 
 <h2>Download Page</h2> 
 
@@ -19,8 +21,6 @@ Filetype/Filename: <INPUT TYPE=TEXT NAME=filename SIZE=20><BR><BR>
 
 <%
 	
-	new Loader().load();
-
 	if (session.getAttribute("username") == null)
 		response.sendRedirect("index.jsp");
 	else{
@@ -31,9 +31,8 @@ Filetype/Filename: <INPUT TYPE=TEXT NAME=filename SIZE=20><BR><BR>
 <h4> Hello, <%=session.getAttribute("username") %></h4>
 
 <%
+	
 	String filename = request.getParameter("filename");
-	
-	
 	ArrayList<DBFile> files = new FileDisplay().getFiles(filename);
 	
 %>

@@ -13,7 +13,7 @@ public class Loader {
 	}	
 	
 	
-	public void load(){
+	public void load(String uploadername){
 		
 		File f = new File("/usr/local/tomcat7/webapps/DS/dump");
 		File d = new File ("/usr/local/tomcat7/webapps/DS/dump/done");
@@ -27,7 +27,7 @@ public class Loader {
 			for (File file : f.listFiles()){
 				
 				if (!file.isDirectory()){
-					if (con.load(file)){
+					if (con.load(file, uploadername)){
 						
 						Boolean success = file.renameTo(new File(d, file.getName()));
 						if (success)
