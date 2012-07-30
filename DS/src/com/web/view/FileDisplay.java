@@ -19,8 +19,8 @@ public class FileDisplay {
 	}
 	
 	
-	public ArrayList<DBFile> getFiles(String filename){
-		return con.getFiles(filename);
+	public ArrayList<DBFile> getFiles(String filename, String user){
+		return con.getFiles(filename, user);
 	}
 	
 	

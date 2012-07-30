@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,7 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import com.web.view.FileDisplay;
 import com.web.view.JDBCConnect;
+import com.web.model.*;
+
 
 public class Download extends HttpServlet{
 
@@ -26,6 +31,10 @@ public class Download extends HttpServlet{
 	private JDBCConnect connect;
 	
 	private static Logger logger = Logger.getLogger(Download.class);
+	
+	
+	private String user;
+	private String filename;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -42,6 +51,27 @@ public class Download extends HttpServlet{
 	}
 
 	
+	
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		
+		user = req.getParameter("user");
+		filename = req.getParameter("filename");
+		
+		ArrayList<DBFile> files = new FileDisplay().getFiles(filename, user);
+		
+		req.setAttribute("dbfiles", files);
+		
+		RequestDispatcher view = req.getRequestDispatcher("download.jsp");
+		view.forward(req, resp);
+		
+	}
+
+
+
+
 	@Override
 	protected void doGet(HttpServletRequest requset, HttpServletResponse response)
 			throws ServletException, IOException {

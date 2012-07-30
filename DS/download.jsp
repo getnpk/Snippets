@@ -3,16 +3,17 @@
 <html>
 <body>
 
-<P><a align = "right" href="Logout">Logout</a><BR>
 <P><a align = "right" href="upload.jsp">Upload</a>
+<a align = "right" href="Logout">Logout</a><BR>
+
 
 <h2>Download Page</h2> 
 
 
-<FORM METHOD=POST ACTION="download.jsp">
+<FORM METHOD=POST ACTION="Download">
 
-Filetype/Filename: <INPUT TYPE=TEXT NAME=filename SIZE=20><BR><BR>
-
+Filetype/Filename: <INPUT TYPE=TEXT NAME=filename SIZE=20>
+User: <INPUT TYPE=TEXT NAME=user SIZE=20><BR><BR>
 
 <P><INPUT TYPE=SUBMIT VALUE="Filter"><BR>
 
@@ -28,18 +29,16 @@ Filetype/Filename: <INPUT TYPE=TEXT NAME=filename SIZE=20><BR><BR>
 	}
 %>
 
-<h4> Hello, <%=session.getAttribute("username") %></h4>
+<h4> Hello, <%= session.getAttribute("username") %></h4>
+
 
 <%
+
 	
-	String filename = request.getParameter("filename");
-	ArrayList<DBFile> files = new FileDisplay().getFiles(filename);
-	
-%>
-	
-<%
-	
-	if (!files.isEmpty()){
+	ArrayList<DBFile> files = (ArrayList<DBFile>) request.getAttribute("dbfiles");
+
+	if (files != null){
+		if ( !files.isEmpty() ){
 %>
 
 	<table border="1" width = 100%>
@@ -69,6 +68,7 @@ Filetype/Filename: <INPUT TYPE=TEXT NAME=filename SIZE=20><BR><BR>
 %>
 	<h2> No files found, empty!</h2>
 <%		
+	}
 	}
 %>
 

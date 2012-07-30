@@ -111,7 +111,8 @@ public class JDBCConnect{
 		
 			getFileStatement = connection.prepareStatement("select file from files where filename = ?");
 			
-			getFilesStatement = connection.prepareStatement("select filename, filetype, filesize, user_requested from files where filename like ?");
+			getFilesStatement = connection.prepareStatement("select filename, filetype, filesize, user_requested from files" +
+					" where filename like ? and user_requested like ?");
 			
 		} catch (SQLException e) {
 
@@ -120,20 +121,25 @@ public class JDBCConnect{
 	}
 
 	
-	public ArrayList<DBFile> getFiles(String filename){
+	public ArrayList<DBFile> getFiles(String filename, String user){
 		
 		ArrayList<DBFile> files = new ArrayList<DBFile>();
 		
-		if (filename == null ){
+		if (filename == null )
 			filename = "%";
-		}else{
+		else
 			filename = "%" + filename + "%";
-		}
+		
+		if (user == null )
+			user = "%";
+		else
+			user = "%" + user + "%";
 		
 		try {
 			
 			getFilesStatement.setString(1, filename.toLowerCase());
-		
+			getFilesStatement.setString(2, user.toLowerCase());
+			
 			resultset = getFilesStatement.executeQuery();
 			
 			while (resultset.next()){
