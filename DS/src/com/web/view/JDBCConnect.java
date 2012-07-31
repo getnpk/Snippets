@@ -49,6 +49,7 @@ public class JDBCConnect{
 	private PreparedStatement loadStatement = null;
 	private PreparedStatement getFileStatement = null;
 	private PreparedStatement getFilesStatement = null;
+	private PreparedStatement isFileExistsStatement = null;
 	
 	public static JDBCConnect getObject(String username, String password, String db){
 		
@@ -114,12 +115,41 @@ public class JDBCConnect{
 			getFilesStatement = connection.prepareStatement("select filename, filetype, filesize, user_requested from files" +
 					" where filename like ? and user_requested like ?");
 			
+			isFileExistsStatement = connection.prepareStatement("select filename from files where filename = ?");
+			
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		}
 	}
 
+	
+	public Boolean isFileExists(String filename){
+		
+		String thename = null;
+		
+		try {
+			isFileExistsStatement.setString(1, filename);
+			resultset = isFileExistsStatement.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			while(resultset.next()){
+				thename = resultset.getString("filename");
+			}
+		} catch (SQLException e) {
+			 
+			e.printStackTrace();
+		}
+		
+		if (filename.equals(thename))
+			return true;
+		else
+			return false;
+	}
 	
 	public ArrayList<DBFile> getFiles(String filename, String user){
 		
@@ -204,7 +234,7 @@ public class JDBCConnect{
 		try {
 			fis = new FileInputStream(file);
 		} catch (FileNotFoundException e1) {
-			System.out.println("file not found ehre!!!!!!!");
+			System.out.println("file not found here!!!!!!!");
 			e1.printStackTrace();
 			isOkay = false;
 		}

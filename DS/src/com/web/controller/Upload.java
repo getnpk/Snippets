@@ -18,6 +18,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.web.view.JDBCConnect;
 import com.web.view.Loader;
 
 
@@ -30,10 +31,13 @@ public class Upload extends HttpServlet{
 	
 	
 	private static final String dumpLocation = "/usr/local/tomcat7/webapps/DS/dump";
+	private JDBCConnect connect;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 
+		connect = JDBCConnect.getObject("","","");
+		
 		dumpDir = new File(dumpLocation);
 		if (!dumpDir.exists())
 			dumpDir.mkdirs();
@@ -78,14 +82,20 @@ public class Upload extends HttpServlet{
 			for (FileItem item : items){
 				
 				try {
-						File file = new File(dumpDir, item.getName());
+					
+					File file = new File(dumpDir, item.getName());
+					
+					if (!connect.isFileExists(item.getName())){
 						item.write(file);
-						donefiles.add(file.getName());
-						
-					} catch (Exception e) {
-						e.printStackTrace();
+						donefiles.add(file.getName() + " uploaded.");
+					}else{
+						donefiles.add(file.getName() + " already exists, not uploaded! ");
 					}
 					
+				} catch (Exception e) {
+						e.printStackTrace();
+					}
+				
 				}
 			
 			

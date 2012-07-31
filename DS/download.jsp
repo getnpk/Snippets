@@ -4,7 +4,7 @@
 <body>
 
 <P><a align = "right" href="upload.jsp">Upload</a>
-<a align = "right" href="Logout">Logout</a><BR>
+<a style= "float:right" href="Logout">Logout</a><BR>
 
 
 <h2>Download Page</h2> 

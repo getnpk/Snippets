@@ -14,7 +14,7 @@
 		username = (String) session.getAttribute("username");
 	}
 %>
-
+		<a style= "float:right" href="Logout">Logout</a><BR>
 		<h2>Upload Files, <%= username %></h2>
 		<form action="Upload" enctype="multipart/form-data" method="POST">
 			<input type="file" multiple name="file1"><br><br>
@@ -28,11 +28,12 @@
 		if (thelist != null){
 			for (String name : thelist){
 		%>
-			<h5>Uploaded: <%= name %></h5>	
+			<h5 style="color:red">Status: <%= name %></h5>	
 		<%		
 			}
 		}
 		%>
-			
+		
+		<P><a href="download.jsp">Download Page</a><BR>	
 	</body>
 </html>
