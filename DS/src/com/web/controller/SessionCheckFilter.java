@@ -35,12 +35,14 @@ public class SessionCheckFilter implements Filter{
 		context = config.getServletContext();
 		filterName = config.getFilterName();
 		pathToBeIgnored = config.getInitParameter("pathsToBeIgnored");
+	
 		/*
 		Enumeration<String> en = config.getInitParameterNames();
 		if(en.hasMoreElements()){
 			excludefiles.add(config.getInitParameter(en.nextElement()));
 		}
 		*/
+		
 		if (pathToBeIgnored.indexOf(',') > 0){
 			for (String s : pathToBeIgnored.split(",")){
 				excludefiles.add(s);
@@ -70,6 +72,7 @@ public class SessionCheckFilter implements Filter{
 		if (excludefiles.contains(thepath)){
 			chain.doFilter(request, response);
 			context.log(filterName + " ignoring path " + thepath);
+
 		}else{
 		
 		if (session.getAttribute("username") == null){
@@ -80,14 +83,10 @@ public class SessionCheckFilter implements Filter{
 			view.forward(request, response);
 			
 		}else{
-			if (thepath.indexOf("load") > 0){
-				RequestDispatcher view = req.getRequestDispatcher("upload.jsp");
-				view.forward(request, response);
-				
-			}else{
-				RequestDispatcher view = req.getRequestDispatcher("download.jsp");
-				view.forward(request, response);
-			}
+			
+			chain.doFilter(request, response);
+
+			
 		}
 		
 		}
