@@ -4,13 +4,26 @@
 
 <FORM METHOD=POST ACTION="Register">
 
-Username: <INPUT TYPE=TEXT NAME=rusername SIZE=20><BR><BR>
-Password: <INPUT TYPE=PASSWORD NAME=rpassword SIZE=20><BR><BR>
-Firstname: <INPUT TYPE=TEXT NAME=rfirstname SIZE=20><BR><BR>
-Lastname: <INPUT TYPE=TEXT NAME=rlastname SIZE=20><BR>
+<table cellspacing="10">
 
-<P><INPUT TYPE=SUBMIT VALUE="Register">
+<tr>
+<td>Username: </td><td><INPUT TYPE=TEXT NAME=rusername SIZE=20></td>
+</tr>
+<tr>
+<td>Password: </td><td><INPUT TYPE=PASSWORD NAME=rpassword SIZE=20></td>
+</tr>
+<tr>
+<td>Firstname: </td><td><INPUT TYPE=TEXT NAME=rfirstname SIZE=20></td>
+</tr>
+<tr>
+<td>Lastname: </td><td><INPUT TYPE=TEXT NAME=rlastname SIZE=20></td>
+</tr>
 
+<tr>
+<td><INPUT TYPE=SUBMIT VALUE="Register"></td>
+</tr>
+
+</table>
 </FORM>
 
 <%

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +34,16 @@ public class Upload extends HttpServlet{
 	private static final String dumpLocation = "/usr/local/tomcat7/webapps/DS/dump";
 	private JDBCConnect connect;
 	
+	private ServletContext context;
+	private String servletName;
+	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 
 		connect = JDBCConnect.getObject("","","");
+		
+		context = config.getServletContext();
+		servletName = config.getServletName();
 		
 		dumpDir = new File(dumpLocation);
 		if (!dumpDir.exists())
@@ -88,8 +95,10 @@ public class Upload extends HttpServlet{
 					if (!connect.isFileExists(item.getName())){
 						item.write(file);
 						donefiles.add(file.getName() + " uploaded.");
+						context.log(servletName + ": " + " file uploaded " + file.getName());
 					}else{
 						donefiles.add(file.getName() + " already exists, not uploaded! ");
+						context.log(servletName + ": " + " file not uploaded " + file.getName());
 					}
 					
 				} catch (Exception e) {

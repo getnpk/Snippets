@@ -4,6 +4,39 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     version="2.4">
 
+
+<filter>
+	<filter-name>Reporter</filter-name>
+	<filter-class>com.web.controller.ReportFilter</filter-class>
+	
+	<init-param>
+		<param-name>start</param-name>
+		<param-value>10</param-value>
+	</init-param>
+</filter>
+
+<filter-mapping>
+	<filter-name>Reporter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+
+
+<filter>
+	<filter-name>SessionFilter</filter-name>
+	<filter-class>com.web.controller.SessionCheckFilter</filter-class>
+	<init-param>
+		<param-name>pathsToBeIgnored</param-name>
+		<param-value>/DS/index.jsp,/DS/,/DS/Logout,/DS/Login,/DS/Upload</param-value>
+	</init-param>
+	
+</filter>
+
+<filter-mapping>
+	<filter-name>SessionFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+
+
  <description>Suepr dooper App</description>
 
   <resource-ref>

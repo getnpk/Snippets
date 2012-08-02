@@ -20,20 +20,9 @@ User: <INPUT TYPE=TEXT NAME=user SIZE=20><BR><BR>
 </FORM>
 
 
-<%
-	
-	if (session.getAttribute("username") == null)
-		response.sendRedirect("index.jsp");
-	else{
-		String username = request.getParameter( "username" );
-	}
-%>
-
 <h4> Hello, <%= session.getAttribute("username") %></h4>
 
-
 <%
-
 	
 	ArrayList<DBFile> files = (ArrayList<DBFile>) request.getAttribute("dbfiles");
 
