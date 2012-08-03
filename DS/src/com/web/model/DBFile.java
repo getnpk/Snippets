@@ -5,7 +5,7 @@ public class DBFile {
 	private String filename;
 	private String filetype;
 	private String filesize;
-	private String user_requested;
+	private String userRequested;
 	
 	public void setFilename(String filename){
 		this.filename = filename;
@@ -19,8 +19,8 @@ public class DBFile {
 		this.filesize = filesize;
 	}
 	
-	public void setUserRequested(String user_requested){
-		this.user_requested = user_requested;
+	public void setUserRequested(String userRequested){
+		this.userRequested = userRequested;
 	}
 	
 	public String getFilename(){
@@ -36,7 +36,7 @@ public class DBFile {
 	}
 	
 	public String getUserRequested(){
-		return user_requested;
+		return userRequested;
 	}
 	
 }

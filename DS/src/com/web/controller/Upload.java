@@ -30,7 +30,6 @@ public class Upload extends HttpServlet{
 	private File doneDir;
 	private ArrayList<String> donefiles;
 	
-	
 	private static final String dumpLocation = "/usr/local/tomcat7/webapps/DS/dump";
 	private JDBCConnect connect;
 	
@@ -97,7 +96,7 @@ public class Upload extends HttpServlet{
 						donefiles.add(file.getName() + " uploaded.");
 						context.log(servletName + ": " + " file uploaded " + file.getName());
 					}else{
-						donefiles.add(file.getName() + " already exists, not uploaded! ");
+						donefiles.add(file.getName() + " already exists not uploaded! ");
 						context.log(servletName + ": " + " file not uploaded " + file.getName());
 					}
 					
@@ -110,6 +109,7 @@ public class Upload extends HttpServlet{
 			
 			new Loader().load(uploadername);
 			
+	
 			req.setAttribute("donefiles", donefiles);
 			RequestDispatcher view = req.getRequestDispatcher("upload.jsp");
 			view.forward(req, resp);

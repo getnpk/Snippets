@@ -1,4 +1,5 @@
 <%@ page import="com.web.model.*, com.web.view.*, java.io.*, java.util.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <body>
@@ -19,47 +20,43 @@ User: <INPUT TYPE=TEXT NAME=user SIZE=20><BR><BR>
 
 </FORM>
 
+<c:set var="user" scope="session" value="${username}"/>
+<h4> Hello, ${user}!</h4>
 
-<h4> Hello, <%= session.getAttribute("username") %></h4>
+<c:if test="${not empty dbfiles }">
 
-<%
-	
-	ArrayList<DBFile> files = (ArrayList<DBFile>) request.getAttribute("dbfiles");
+<c:choose>
 
-	if (files != null){
-		if ( !files.isEmpty() ){
-%>
-
+	<c:when test="${not empty dbfiles}">
+		<table border="1" width = 100%>
+		<tr>
+			<th width = 50%>Filename</th>
+			<th width = 10%>Filetype</th>
+			<th width = 10%>Filesize (KB)</th>
+			<th width = 30%>User Requested</th>
+		</tr>
+		</table>
 	<table border="1" width = 100%>
-	<tr>
-		<th width = 50%>Filename</th>
-		<th width = 10%>Filetype</th>
-		<th width = 10%>Filesize (KB)</th>
-		<th width = 30%>User Requested</th>
-	</tr>
-	</table>
-<%		
-	for (DBFile f : files){
-%>	
+	<c:forEach var="dbfile" items="${dbfiles}">
+		<tr>
+		<td width = 50%><a href="Download?filename=${dbfile.filename}">${dbfile.filename}</a></td>
+		<td width = 10%>${dbfile.filetype}</td>
+		<td width = 10%>${dbfile.filesize}</td>
+		<td width = 30%>${dbfile.userRequested}</td>
+		</tr>
+	</c:forEach>
+	</table>		
 	
-	<table border="1" width = 100%>
-	<tr>
-		<td width = 50%><a href="Download?filename=<%=f.getFilename()%>"><%=f.getFilename()%></a></td>
-		<td width = 10%><%= f.getFiletype() %></td>
-		<td width = 10%><%= f.getFilesize() %></td>
-		<td width = 30%><%= f.getUserRequested() %></td>
-	</tr>
-	</table> 
-	
-<%		
-		}
-	}else{
-%>
-	<h2> No files found, empty!</h2>
-<%		
-	}
-	}
-%>
+	</c:when>
+
+	<c:otherwise>
+		<h4>Could not find any matching files!</h4>		
+	</c:otherwise>
+
+</c:choose>
+
+</c:if>
+
 
 </body>
 </html>

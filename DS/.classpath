@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="/usr/local/tomcat7/lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="/usr/local/tomcat7/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/home/hadoop/Documents/commons-fileupload-1.2.2.jar" sourcepath="/home/hadoop/Documents/commons-fileupload-1.2.2-src"/>
+	<classpathentry kind="lib" path="/home/hadoop/Downloads/jstl-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

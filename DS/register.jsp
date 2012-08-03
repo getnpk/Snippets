@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <body>
 <h2>Register</h2>
@@ -26,14 +28,12 @@
 </table>
 </FORM>
 
-<%
-	if (request.getAttribute("register_error") != null){
-		String msg = (String) request.getAttribute("register_error");
-%>
-	<i> You have a problem: <%= msg %></i>
-<%
-	}
-%>
+
+<c:if test="${not empty register_error}">
+	<c:set var="msg" scope="session" value="${register_error}"/>
+	<i> You have a problem: ${msg}</i>
+</c:if>
+
 
 <P><a href="index.jsp">Login</a>
 
