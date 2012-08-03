@@ -1,0 +1,20 @@
+
+create table users (id int not null auto_increment primary key, firstname varchar(20), lastname varchar(20), username varchar(20), password varchar(50));
+
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| firstname | varchar(20) | YES  |     | NULL    |                |
+| lastname  | varchar(20) | YES  |     | NULL    |                |
+| username  | varchar(20) | YES  |     | NULL    |                |
+| password  | varchar(50) | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+
+insert into users (firstname, lastname, username, password) values ('Nitin', 'Kumar', 'nitin',sha('nitin'));
+
+
+create table files (id int not null auto_increment primary key, filename varchar(50), filetype varchar(20), filesize varchar(20), filelocation varchar(50), user_requested varchar(20), file longblob);
+
+
+alter table files add column (uploadtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
