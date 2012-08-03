@@ -34,10 +34,10 @@
 
 	<c:choose>
 		<c:when test="${fn:contains(thelist, 'exists') }">
-			<h5> style="color:red">Status: ${thelist}</h5>
+			<h5 style="color:red">Status: ${thelist}</h5>
 		</c:when>
 		<c:otherwise>
-			<h5> style="color:blue">Status: ${thelist}</h5>
+			<h5 style="color:blue">Status: ${thelist}</h5>
 		</c:otherwise>
 	</c:choose>
 	
