@@ -46,7 +46,7 @@
 
 </c:if>
 
-<P><a href="download.jsp">Download Page</a><BR>	
+<P><a href="<c:url value='download.jsp'/>">Download Page</a><BR>	
 
 </body>
 </html>

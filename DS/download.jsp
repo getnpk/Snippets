@@ -4,7 +4,7 @@
 <html>
 <body>
 
-<P><a align = "right" href="upload.jsp">Upload</a>
+<P><a href="<c:url value='upload.jsp'/>">Upload</a>
 <a style= "float:right" href="Logout">Logout</a><BR>
 
 
