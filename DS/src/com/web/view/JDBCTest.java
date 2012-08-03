@@ -21,12 +21,16 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
 import java.sql.Blob;
+import java.util.Date;
 
 
 public class JDBCTest {
 
 	private static final String DataBase_URL = "jdbc:mysql://localhost/";
 	public static void main(String[] args) throws IOException{
+		
+		long now = System.currentTimeMillis();
+		long diff = 0;
 		Connection connection;
 		Statement statement;
 		ResultSet resultset;
@@ -34,7 +38,7 @@ public class JDBCTest {
 		String db="mytestdb";
 		String username = "root";
 		String password = "";
-
+		
 		try {
 			try {
 				Class.forName ("com.mysql.jdbc.Driver").newInstance ();
@@ -49,57 +53,25 @@ public class JDBCTest {
 			connection = DriverManager.getConnection(DataBase_URL+db, username, password);
 		
 			statement = connection.createStatement();
-		
-					/*
-					String sql = "insert into blobtest(username, photo) values(?, ?)";
-					PreparedStatement pstmt = connection.prepareStatement(sql); 
-					
-					File file = new File("/usr/local/tomcat7/lib/tomcat-dbcp.jar"); 
-					FileInputStream fis = new FileInputStream(file); 
-					
-					pstmt.setString(1, "LiangZhao"); //set parameter 1
-					pstmt.setBinaryStream(2, fis, (int)file.length());
-					pstmt.executeUpdate();
-					
-					pstmt.close(); 
-					fis.close(); 
-					*/
-					
-					// reading
-					
-					String sql = "select photo from blobtest where username = ?"; 
-					PreparedStatement pstmt = connection.prepareStatement(sql);
-					pstmt.setString(1, "LiangZhao");
-					ResultSet rs = pstmt.executeQuery();
-					rs.next();
-					
-					Blob blob = rs.getBlob("photo");
-					
-					
-					//ImageIcon icon = new ImageIcon(blob.getBytes(1, (int)blob.length()));
-					//JLabel photo = new JLabel(icon);
-					//System.out.println(photo);		
-					
-					byte[] b = blob.getBytes(1, (int)blob.length());
-					
-					FileOutputStream fout = new FileOutputStream("/tmp/monkey.jar");
-					
-					//PrintWriter out = new PrintWriter(new File("sdf"));
+
+			resultset = statement.executeQuery("select uploadtime from files where filename='stylesheet.css'");
+			
+			while(resultset.next()){
+				Date date = resultset.getTimestamp("uploadtime");
+				long then = date.getTime();
 				
-					fout.write(b);					
-					fout.close();
-					
-					File f = new File("/tmp/monkey.jar");
-					System.out.println(f.length()/1024);
-					
-					rs.close();
-					pstmt.close();
-					System.out.println("copying done!");
-					
-				} catch (SQLException e) {
+				diff = now - then;
+				
+			}
+			
+			} catch (SQLException e) {
 
 			e.printStackTrace();
 		}
-
+		
+		System.out.println("Days " + (diff/(1000*60*60*24)));
+		System.out.println("Hours " + (diff/(1000*60*60)));
+		System.out.println("Mins " + (diff/(1000*60)));
+		System.out.println("Seconds " + (diff/1000) % 60);
 	}
 }
