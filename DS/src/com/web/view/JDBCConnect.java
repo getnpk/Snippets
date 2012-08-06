@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -32,9 +33,11 @@ public class JDBCConnect{
 	
 	private static Logger logger = Logger.getLogger(JDBCConnect.class);
 	
-	String username;
-	String password;
-	String db;
+	private String username;
+	private String password;
+	private String db;
+	
+	private Date date;
 	
 	private DataSource datasource;
 	private Connection connection;
@@ -50,6 +53,7 @@ public class JDBCConnect{
 	private PreparedStatement getFileStatement = null;
 	private PreparedStatement getFilesStatement = null;
 	private PreparedStatement isFileExistsStatement = null;
+	private PreparedStatement getUploadTimeStatement = null;
 	
 	public static JDBCConnect getObject(String username, String password, String db){
 		
@@ -117,12 +121,40 @@ public class JDBCConnect{
 			
 			isFileExistsStatement = connection.prepareStatement("select filename from files where filename = ?");
 			
+			getUploadTimeStatement = connection.prepareCall("select uploadtime from files where filename = ? ");
+			
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		}
 	}
 
+	
+	public long getUploadTime(String filename){
+		
+		long then = 0;
+		
+		try {
+			getUploadTimeStatement.setString(1, filename);
+			resultset = getUploadTimeStatement.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			while(resultset.next()){
+				date = resultset.getTimestamp("uploadtime");
+				then = date.getTime();
+			}
+		} catch (SQLException e) {
+			 
+			e.printStackTrace();
+		}
+		
+		return then;
+	}
+	
 	
 	public Boolean isFileExists(String filename){
 		
