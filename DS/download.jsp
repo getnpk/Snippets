@@ -37,8 +37,8 @@ User: <INPUT TYPE=TEXT NAME=user SIZE=20><BR><BR>
 			<th width = 50%>Filename</th>
 			<th width = 10%>Filetype</th>
 			<th width = 10%>Filesize (KB)</th>
-			<th width = 10%>User Requested</th>
-			<th width = 20%>Upload Date</th>
+			<th width = 10%>User</th>
+			<th width = 20%>File age</th>
 		</tr>
 		</table>
 	<table border="1" width = 100%>
@@ -49,7 +49,7 @@ User: <INPUT TYPE=TEXT NAME=user SIZE=20><BR><BR>
 		<td width = 10%>${dbfile.filetype}</td>
 		<td width = 10%>${dbfile.filesize}</td>
 		<td width = 10%>${dbfile.userRequested}</td>
-		<td width = 20%><stats:date filename="${dbfile.filename }"/></td>
+		<td width = 20%><stats:age filename="${dbfile.filename }"/></td>
 		</tr>
 	</c:forEach>
 	</table>		

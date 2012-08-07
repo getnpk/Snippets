@@ -210,6 +210,10 @@ public class JDBCConnect{
 		
 		ArrayList<DBFile> files = new ArrayList<DBFile>();
 		
+		
+		if (filename == null && user == null)
+			return null;
+		
 		if (filename == null )
 			filename = "%";
 		else
