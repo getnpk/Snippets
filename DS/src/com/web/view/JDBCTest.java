@@ -38,6 +38,7 @@ public class JDBCTest {
 		String db="mytestdb";
 		String username = "root";
 		String password = "";
+		Date date = null;
 		
 		try {
 			try {
@@ -57,7 +58,7 @@ public class JDBCTest {
 			resultset = statement.executeQuery("select uploadtime from files where filename='stylesheet.css'");
 			
 			while(resultset.next()){
-				Date date = resultset.getTimestamp("uploadtime");
+				date = resultset.getTimestamp("uploadtime");
 				long then = date.getTime();
 				
 				diff = now - then;
@@ -68,6 +69,8 @@ public class JDBCTest {
 
 			e.printStackTrace();
 		}
+		String d = date.toString().split(" ")[0];
+		
 		
 		System.out.println("Days " + (diff/(1000*60*60*24)));
 		System.out.println("Hours " + (diff/(1000*60*60)));

@@ -129,6 +129,29 @@ public class JDBCConnect{
 		}
 	}
 
+	public String getUploadDate(String filename){
+		
+		try {
+			getUploadTimeStatement.setString(1, filename);
+			resultset = getUploadTimeStatement.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			while(resultset.next()){
+				date = resultset.getTimestamp("uploadtime");
+				
+			}
+		} catch (SQLException e) {
+			 
+			e.printStackTrace();
+		}
+		
+		return date.toString().split(" ")[0];
+	}
+
 	
 	public long getUploadTime(String filename){
 		

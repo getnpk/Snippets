@@ -37,10 +37,11 @@ public class LoadTimeTagHandler extends SimpleTagSupport{
 		this.filename = filename;
 	}
 	
-	public String getUploadTime(){
+	private String getUploadTime(){
 		
 		long diff = now - con.getUploadTime(filename);
 	
+		/*
 		seconds = diff/1000;
 		minutes = seconds/60;
 		hours = minutes/60;
@@ -55,7 +56,14 @@ public class LoadTimeTagHandler extends SimpleTagSupport{
 			hours = hours % 24;
 		if (days > 365)
 			days = days % 365;	
-	
+		
 		return String.format("Days %s Hours %s Mins %s Secs %s", days, hours, minutes, seconds);
+		
+		*/
+		days = diff /(3600000 * 24);
+		if (days > 365)
+			days = days % 365;	
+		
+		return String.format("%s days", days);
 	}
 }

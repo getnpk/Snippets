@@ -25,4 +25,20 @@ jsptaglibrary_2_0.xsd"
 
 </tag>
 
+<tag>
+
+	<description> Display age of file on server </description>
+	<name>date</name>
+	<tag-class>com.web.customtags.LoadDateTagHandler</tag-class>
+	<body-content>empty</body-content>
+	
+	<attribute>
+		<name>filename</name>
+		<required>true</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+
+</tag>
+
+
 </taglib>
