@@ -27,6 +27,7 @@ import javax.sql.DataSource;
 import com.web.model.DBFile;
 import com.web.model.User;
 
+
 public class JDBCConnect{
 
 	private static final String DataBase_URL = "jdbc:mysql://localhost/";
@@ -156,6 +157,9 @@ public class JDBCConnect{
 	public long getUploadTime(String filename){
 		
 		long then = 0;
+		
+		if (filename == null)
+			filename = "";
 		
 		try {
 			getUploadTimeStatement.setString(1, filename);

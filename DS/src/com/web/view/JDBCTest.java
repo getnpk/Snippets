@@ -20,6 +20,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
+import com.web.model.User;
+
 import java.sql.Blob;
 import java.util.Date;
 
@@ -76,5 +78,12 @@ public class JDBCTest {
 		System.out.println("Hours " + (diff/(1000*60*60)));
 		System.out.println("Mins " + (diff/(1000*60)));
 		System.out.println("Seconds " + (diff/1000) % 60);
+		
+		User u = new User();
+		u.showClassDetails();
+		
+		String name = "nitin.p.kumar";
+		//System.out.println(name.substring(0, name.lastIndexOf('.')));
+		System.out.println(name.substring(5));
 	}
 }

@@ -21,7 +21,6 @@ import com.web.view.FileDisplay;
 import com.web.view.JDBCConnect;
 import com.web.model.*;
 
-
 public class Download extends HttpServlet{
 
 	private String db_username;
