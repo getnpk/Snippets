@@ -8,8 +8,6 @@ import java.sql.DriverManager;
 
 import view.Hbase;
 
-
-
 public class JdbcTest {
   private static String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
 
