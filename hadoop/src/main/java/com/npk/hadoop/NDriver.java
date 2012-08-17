@@ -29,6 +29,7 @@ public class NDriver implements Tool{
 		FileInputFormat.setInputPaths(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 		
+		
 		/*
 		FileOutputFormat.setCompressOutput(job, true);
 		FileOutputFormat.setOutputCompressorClass(job, GzipCodec.class);
@@ -39,7 +40,7 @@ public class NDriver implements Tool{
 		job.setReducerClass(NReducer.class);
 		
 	
-		job.setOutputKeyClass(Text.class);
+		job.setOutputKeyClass(TextPair.class);
 		job.setOutputValueClass(IntWritable.class);
 		
 		return (job.waitForCompletion(true) ? 0 : 1);

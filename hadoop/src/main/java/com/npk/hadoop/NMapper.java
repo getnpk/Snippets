@@ -8,14 +8,15 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 
-public class NMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
+public class NMapper extends Mapper<LongWritable, Text, TextPair, IntWritable>{
 	@Override
 	protected void map(LongWritable key, Text value, Context context)
 			throws IOException, InterruptedException {
 		
 		String line = value.toString();
-		String field_one = line.split(",")[0];
+		String first = line.split(",")[0];
+		String second = line.split(",")[1];
 		
-		context.write(new Text(field_one), new IntWritable(1));
+		context.write(new TextPair(first, second), new IntWritable(1));
 	}
 }

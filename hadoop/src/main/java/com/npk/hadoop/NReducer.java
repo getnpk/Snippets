@@ -7,9 +7,9 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 
-public class NReducer extends Reducer< Text, IntWritable, Text, IntWritable>{
+public class NReducer extends Reducer< TextPair, IntWritable, TextPair, IntWritable>{
 	@Override
-	protected void reduce(Text key, Iterable<IntWritable> values, Context context) 
+	protected void reduce(TextPair key, Iterable<IntWritable> values, Context context) 
 			throws IOException, InterruptedException {
 		
 		int counter = 0;
