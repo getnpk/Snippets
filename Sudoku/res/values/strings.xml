@@ -1,0 +1,32 @@
+<resources>
+
+    <string name="app_name">Sudoku</string>
+    <string name="main_title">Npk Sudoku</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_sudoku">Sudoku</string>
+	<string name="continue_label">Contiue</string>
+	<string name="exit_label">Exit</string>
+	<string name="new_game_label">New</string>
+	<string name="about_label">About</string>
+	<string name="about_dialogue_title">About this amazing game</string>
+	<string name="about_title">About Npk Sudoku</string>
+	<string name="about_text">\
+	    Sudoku is a logic based game or a puzzle. You should
+	    be knowing what this is and not reading this. Must have
+	    seen oldtimers playing this game on the newspapaer.
+	    I dont think this a an awesome game, about for the sake of
+	    learnging htp, this is great! - Yours truly, Nitin</string>
+	    
+	<string name="settings_label">Settings</string>
+	<string name="settings_title">Npk Sudoku Settings</string>
+	<string name="settings_shortcut">s</string>
+	<string name="music_title">Music</string>
+	<string name="music_summary">Play a heavy metal background score</string>
+	<string name="hints_title">Hints</string>
+	<string name="hints_summary">Show hints, because you are dumb</string>
+	
+	<string name="new_game_title">Difficulty</string>
+	<string name="easy_label">Newbie baby</string>
+	<string name="medium_label">Bring it on!</string>
+	<string name="hard_label">The Jedi Master</string>
+</resources>
