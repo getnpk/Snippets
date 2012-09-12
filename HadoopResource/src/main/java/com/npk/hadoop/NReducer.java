@@ -16,6 +16,8 @@ public class NReducer extends Reducer< TextPair, IntWritable, TextPair, IntWrita
 		for (IntWritable value : values){
 			++counter;
 		}
+		
+		
 		context.write(key, new IntWritable(counter));
 	}
 }
