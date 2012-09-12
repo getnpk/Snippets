@@ -1,11 +1,12 @@
 package com.imaginea.qctree.measures;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class Count implements Aggregable {
+public class Count implements Aggregable, Serializable  {
 
   private static final Log LOG = LogFactory.getLog(Count.class);
   private int count;

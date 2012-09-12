@@ -17,6 +17,8 @@ public class FileSystemCat {
 		String uri = "hdfs://localhost:40000/hive/warehouse/ntable";
 		Configuration conf = new Configuration();
 		FileSystem fs = FileSystem.get(URI.create(uri), conf);
+		
+		
 		InputStream in = null;
 		
 		in = fs.open(new Path(uri));

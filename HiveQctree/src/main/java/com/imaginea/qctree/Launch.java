@@ -11,7 +11,8 @@ public class Launch {
 		System.out.println(table.getHiveBaseTable());
 		
 		Hivejdbc obj = Hivejdbc.getObject();
-		obj.buildQCube();
+		//obj.buildQCube();
+		System.out.println(obj.getTree());
 		
 	}
 }

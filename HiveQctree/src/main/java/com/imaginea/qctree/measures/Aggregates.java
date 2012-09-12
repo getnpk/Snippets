@@ -1,5 +1,6 @@
 package com.imaginea.qctree.measures;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 
-public class Aggregates{
+public class Aggregates implements Serializable{
 
   private final Map<String, Aggregable> aggregates;
   

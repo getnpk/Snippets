@@ -1,6 +1,14 @@
 package com.imaginea.qctree.hive;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,6 +19,11 @@ import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IOUtils;
 
 import com.imaginea.qctree.Cell;
 import com.imaginea.qctree.QCCube;
@@ -80,9 +93,11 @@ public class Hivejdbc {
 					for (int i = 0 ; i < noOfDims ; i++){
 						dims[i] = resultset.getString(i+1);
 					}
-					for (int i = noOfDims +1 ; i< noOfMeas; i++){
-						meas[i] = resultset.getDouble(i+1);
+					
+					for (int i =0 ; i < noOfMeas; i++){
+						meas[i] = resultset.getDouble(noOfDims + noOfMeas + i);
 					}
+					
 				}catch(Exception e){
 					LOG.info("Invalid record!");
 				}
@@ -102,7 +117,11 @@ public class Hivejdbc {
 		QCCube cube = QCCube.construct();
 		cube.printClasses();
 		QCTree tree = QCTree.build(cube);
-		System.out.println(tree);
+		
+		LOG.info("attempting a serialization on tree object..");
+		doSerialize(tree);
+		LOG.info("deserializing...");
+		doDeserialize();
 		
 		try {
 			String fullPath = System.getProperty("user.dir") + "/qcube_lattice.csv";
@@ -125,6 +144,82 @@ public class Hivejdbc {
 		}
 		
 	}
+	
+	private void doSerialize(QCTree tree) {
+		FileOutputStream fos;
+		ObjectOutputStream oos;
+		
+		try {
+			fos = new FileOutputStream("qcTree.ser");
+			try {
+				oos = new ObjectOutputStream(fos);
+				oos.writeObject(tree);
+				oos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		} catch (FileNotFoundException e1) {
+
+			e1.printStackTrace();
+		}
+		
+	}
+
+	private void doDeserialize() {
+		String fullPath = System.getProperty("user.dir") + "/qcTree.ser";
+		try {
+			FileInputStream fis = new FileInputStream(fullPath);
+			try {
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				try {
+					QCTree tree = (QCTree) ois.readObject();
+				} catch (ClassNotFoundException e) {
+
+					e.printStackTrace();
+				}
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+
+	public QCTree getTree(){
+		
+		String uri = "hdfs://localhost:40000/hive/warehouse/qctree_table/qcTree.ser";
+		Configuration conf = new Configuration();
+		
+		FileSystem fs = null;
+		InputStream in = null;
+		QCTree tree = null;
+		
+		try {
+			
+			fs = FileSystem.get(URI.create(uri), conf);
+			in = fs.open(new Path(uri));
+			ObjectInputStream ois = new ObjectInputStream(in);
+			try {
+				tree = (QCTree) ois.readObject();
+			} catch (ClassNotFoundException e) {
+
+				e.printStackTrace();
+			}
+			//IOUtils.copyBytes(in, System.out, 4096, false);
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		} finally {
+			IOUtils.closeStream(in);
+		}
+		
+		return tree;
+	}
+	
 	
 	/*
 	 * Need to store aggregate values as well,

@@ -1,5 +1,6 @@
 package com.imaginea.qctree.hadoop;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +26,7 @@ import com.imaginea.qctree.Table;
  * having (dimension value, aggregate) as node.
  * 
  */
-public class QCTree {
+public class QCTree implements Serializable{
 
   private static final Log LOG = LogFactory.getLog(QCTree.class);
   private static final String NONE = "NONE";
@@ -80,7 +81,6 @@ public class QCTree {
       } else {
         tree.addDrillDownLink(clazz);
       }
-      System.out.println(tree);
     }
     return tree;
   }
@@ -274,7 +274,8 @@ public class QCTree {
    * child a precedes child b, in the child list. This has been designed to
    * achieve best query latency times.
    */
-  class QCNode implements Comparable<QCNode> {
+  class QCNode implements Comparable<QCNode>, Serializable {
+	  
     private int dimIdx;
     private String dimValue;
     private Aggregates aggregates;

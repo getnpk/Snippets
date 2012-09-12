@@ -1,11 +1,12 @@
 package com.imaginea.qctree.measures;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class Minimum implements Aggregable {
+public class Minimum implements Aggregable, Serializable  {
 
   private static final Log LOG = LogFactory.getLog(Minimum.class);
   private double min = Double.MAX_VALUE;
