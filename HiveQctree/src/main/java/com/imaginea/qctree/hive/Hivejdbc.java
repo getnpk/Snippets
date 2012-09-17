@@ -26,28 +26,30 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 
 import com.imaginea.qctree.Cell;
+import com.imaginea.qctree.Property;
 import com.imaginea.qctree.QCCube;
 import com.imaginea.qctree.Row;
 import com.imaginea.qctree.Table;
 import com.imaginea.qctree.Class;
 import com.imaginea.qctree.hadoop.QCTree;
+import com.imaginea.qctree.Property;
 
 
 public class Hivejdbc {
 
 	private static final Log LOG = LogFactory.getLog(Hivejdbc.class);
-	private static String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
+	private static String driverName = Property.hiveDriverName;
 	private static Hivejdbc hivejdbc;
 	
-	
-	private String wareHouseURL = "jdbc:hive://localhost:10000/default";
-	
+	private String wareHouseURL = new StringBuilder().append("jdbc:hive://").append(Property.hiveClientIP).append(":")
+					.append(Property.hiveserverPort).append("/").append(Property.hiveDB).toString();
+			
 	private Connection connection;
 	private Statement statement;
 	private ResultSet resultset;
 	
 	private Table baseTable = Table.getTable();
-	private String basetablename = baseTable.getHiveBaseTable();
+	
 	private int noOfDims = baseTable.getDimensionHeaders().size();
 	private int noOfMeas = baseTable.getMeasureHeaders().size();
 	
@@ -65,15 +67,19 @@ public class Hivejdbc {
 	}
 	
 	private Hivejdbc(){
+		
+		LOG.info(Property.printProperties());
+		
 		try {
-		      java.lang.Class.forName(driverName);
+			  java.lang.Class.forName(driverName);
 		    } catch (ClassNotFoundException e) {
 		      e.printStackTrace();
 		      System.exit(1);
 		    }
 		
 		try {
-			connection = DriverManager.getConnection(wareHouseURL, "hadoop", "hadoop");
+			
+			connection = DriverManager.getConnection(wareHouseURL, Property.hiveUsername, Property.hivePassword);
 			statement = connection.createStatement();
 			
 		} catch (SQLException e) {
@@ -85,8 +91,10 @@ public class Hivejdbc {
 	
 	public void buildQCube(){
 		
+		String query = "select * from " + Property.baseTableName;
 		try {
-			resultset = statement.executeQuery("select * from " + basetablename);
+			LOG.info("Running: " + query);
+			resultset = statement.executeQuery(query);
 			
 			while(resultset.next()){
 				try{
@@ -115,34 +123,20 @@ public class Hivejdbc {
 		}
 	
 		QCCube cube = QCCube.construct();
-		cube.printClasses();
+		cube.printQCLattice();
 		QCTree tree = QCTree.build(cube);
 		
 		LOG.info("attempting a serialization on tree object..");
 		doSerialize(tree);
+		
+		/*
 		LOG.info("deserializing...");
-		doDeserialize();
+		doLocalDeserialize();
+		*/
+
+		LOG.info("Creating table.. " + createTable(Property.QCTableName));
 		
-		try {
-			String fullPath = System.getProperty("user.dir") + "/qcube_lattice.csv";
-			LOG.info(fullPath);
-			resultset = statement.executeQuery("load data local inpath '" + fullPath +"' into table qcube_lattice");
-			if(resultset != null){
-				System.out.println("loaded data");
-				new File(fullPath).delete();
-				System.out.println("file deleted.");
-			}
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}finally{
-			try {
-				resultset.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
+		LOG.info("Loading files.. " + loadFiles());
 	}
 	
 	private void doSerialize(QCTree tree) {
@@ -150,7 +144,7 @@ public class Hivejdbc {
 		ObjectOutputStream oos;
 		
 		try {
-			fos = new FileOutputStream("qcTree.ser");
+			fos = new FileOutputStream(Property.qcTreeFilename);
 			try {
 				oos = new ObjectOutputStream(fos);
 				oos.writeObject(tree);
@@ -166,8 +160,8 @@ public class Hivejdbc {
 		
 	}
 
-	private void doDeserialize() {
-		String fullPath = System.getProperty("user.dir") + "/qcTree.ser";
+	private void doLocalDeserialize() {
+		String fullPath = System.getProperty("user.dir") + "/" + Property.qcTreeFilename;
 		try {
 			FileInputStream fis = new FileInputStream(fullPath);
 			try {
@@ -191,7 +185,12 @@ public class Hivejdbc {
 
 	public QCTree getTree(){
 		
-		String uri = "hdfs://localhost:40000/hive/warehouse/qctree_table/qcTree.ser";
+		String uri = new StringBuilder().append("hdfs://").append(Property.hiveClientIP)
+				.append(":").append(Property.hivePort).append(Property.wareHousePath).append("/")
+				.append(Property.QCTableName).append("/").append(Property.qcTreeFilename).toString();
+		
+		LOG.info("URI: " + uri);
+		
 		Configuration conf = new Configuration();
 		
 		FileSystem fs = null;
@@ -220,6 +219,66 @@ public class Hivejdbc {
 		return tree;
 	}
 	
+	
+	private Boolean createTable(String tablename){
+		
+		String query = "create table " + tablename + " (def string)";
+		LOG.info("Create table: "+ query);
+
+		try {
+			resultset = statement.executeQuery(query);
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			resultset = null;
+		}
+		
+		if (resultset == null)
+			LOG.info("Did not create table, exists!");
+		else
+			LOG.info("Table created " + tablename);
+		
+		return (resultset == null ? false : true);
+	}
+	
+	private Boolean loadFiles(){
+	
+		Boolean success = false;
+		
+		try {
+			String fullPath = System.getProperty("user.dir") + "/" + Property.latticeFilename;
+			LOG.info("Lattice structure: " + fullPath);
+			resultset = statement.executeQuery("load data local inpath '" + fullPath +"' into table " + Property.QCTableName );
+			if(resultset != null){
+				LOG.info("loaded qclattice data");
+				new File(fullPath).delete();
+				LOG.info("local qclattice file deleted.");
+			}
+			
+			fullPath = System.getProperty("user.dir") + "/" + Property.qcTreeFilename;
+			LOG.info("Lattice structure: " + fullPath);
+			resultset = statement.executeQuery("load data local inpath '" + fullPath +"' into table " + Property.QCTableName );
+			if(resultset != null){
+				LOG.info("loaded serialised object");
+				new File(fullPath).delete();
+				LOG.info("local serialised object deleted.");
+			}
+			
+			success = true;
+			
+		} catch (SQLException e) {
+			
+			success = false;
+			e.printStackTrace();
+		}finally{
+			try {
+				resultset.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return success;
+	}
 	
 	/*
 	 * Need to store aggregate values as well,

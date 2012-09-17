@@ -71,12 +71,12 @@ public class QCCube {
   }
   
   //new method
-  public void printClasses(){
+  public void printQCLattice(){
 	
 	PrintWriter writer = null;
 	  
 	  try {
-		writer = new PrintWriter(new File("qcube_lattice.csv"));
+		writer = new PrintWriter(new File(Property.latticeFilename));
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
 	}

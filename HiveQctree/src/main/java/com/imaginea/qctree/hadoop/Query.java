@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.imaginea.qctree.Cell;
+import com.imaginea.qctree.Property;
 import com.imaginea.qctree.hadoop.QCTree.QCNode;
 
 public class Query {
@@ -13,7 +14,7 @@ public class Query {
 	
 	public void execute(QCTree tree, String query){
 	
-		String[] split = query.split(",");
+		String[] split = query.split(Property.fileSeperator);
 	    this.cell = new Cell(split);
 	    
 	    QCNode node = tree.getRoot();
@@ -34,6 +35,9 @@ public class Query {
 	        node = node.getLastChild();
 	      }
 	      System.out.println(node.getAggregates());
+	      LOG.info(query);
+	      LOG.info(node.getAggregates());
+	      
 	    }
 	}
 	

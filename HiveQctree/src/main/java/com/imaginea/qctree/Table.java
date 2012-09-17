@@ -22,7 +22,7 @@ public class Table {
 
   private List<String> dimensions;
   private List<String> measures;
-  private String hiveBaseTable;
+  
   
   static {
     Gson gson = new Gson();
@@ -72,7 +72,5 @@ public class Table {
     rows.clear();
   }
   
-  public String getHiveBaseTable(){
-	  return hiveBaseTable;
-  }
+  
 }

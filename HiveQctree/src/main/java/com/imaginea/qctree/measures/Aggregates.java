@@ -52,7 +52,7 @@ public class Aggregates implements Serializable{
     for (Entry<String, Aggregable> aggr : aggregates.entrySet()) {
       sb.append(aggr.getKey()).append('=');
       sb.append(aggr.getValue().toString());
-      sb.append('\n');
+      sb.append(',');
     }
     return sb.substring(0, sb.length() - 1);
   }
