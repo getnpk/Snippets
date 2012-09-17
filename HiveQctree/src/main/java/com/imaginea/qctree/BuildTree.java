@@ -12,7 +12,7 @@ public class BuildTree {
 
 	private static final Log LOG = LogFactory.getLog(BuildTree.class);
 	
-	public static Boolean isRunning(int port){
+	private static Boolean isRunning(int port){
 		ServerSocket sc = null;
 		Boolean running = false;
 		
@@ -33,13 +33,18 @@ public class BuildTree {
 		return running;
 	}
 	
+	
 	public static void main (String[] args ){
 		
 		Boolean running = isRunning(Integer.parseInt(Property.hivePort));
 		LOG.info("Hive Server running: " + running);
 		if (running){
+			
 			Hivejdbc obj = Hivejdbc.getObject();
-			obj.buildQCube();	
+			if(obj.checkSource())
+					obj.buildQCube();
+			else
+				LOG.info("Load files in new Source table.");
 		}else{
 			LOG.info("Exiting.");
 		}

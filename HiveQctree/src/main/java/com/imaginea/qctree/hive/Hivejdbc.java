@@ -280,6 +280,42 @@ public class Hivejdbc {
 		return success;
 	}
 	
+	
+	public Boolean checkSource(){
+		
+		Boolean ifExists = false;
+		
+		StringBuilder sb = new StringBuilder();
+		for (String s : baseTable.getDimensionHeaders()){
+			sb.append(s).append(" string, ");
+		}
+		String dims = sb.toString();
+		sb = new StringBuilder();
+		for (String s : baseTable.getMeasureHeaders()){
+			sb.append(s).append(" float, ");
+		}
+		String meas = sb.toString();
+		meas = meas.substring(0, meas.lastIndexOf(","));
+		
+		String query = new StringBuilder().append("create table ").append(Property.baseTableName)
+				.append(" (").append(dims).append(meas).append(" )").append(" row format delimited fields terminated" +
+						" by '\t' escaped by '\\\\' lines terminated by '\n'").toString();
+		LOG.info("Query: " + query);
+		
+		try {
+			resultset = statement.executeQuery(query);
+			ifExists = false;
+		} catch (SQLException e) {
+			ifExists = true;
+			//e.printStackTrace();
+		}
+		
+		if (resultset != null)
+			LOG.info(Property.baseTableName + " table created.");
+		
+		return ifExists;
+	}
+	
 	/*
 	 * Need to store aggregate values as well,
 	 * does not work with just the lattice structure.
