@@ -36,7 +36,7 @@ public class BuildTree {
 	
 	public static void main (String[] args ){
 		
-		Boolean running = isRunning(Integer.parseInt(Property.hivePort));
+		Boolean running = isRunning(Integer.parseInt(Property.HIVE_PORT));
 		LOG.info("Hive Server running: " + running);
 		if (running){
 			

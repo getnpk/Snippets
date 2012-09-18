@@ -10,13 +10,13 @@ public final class Property {
 
 	private static Properties prop;
 	
-	private static final String configFile = "config.properties";
+	private static final String CONFIG_FILE = "config.properties";
 	
 	static { 
 		
 		prop = new Properties();
 		try {
-			prop.load(new FileInputStream(configFile));
+			prop.load(new FileInputStream(CONFIG_FILE));
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -31,34 +31,34 @@ public final class Property {
 		
 	}
 	
-	public static final String baseTableName = prop.getProperty("base_table_name");
+	public static final String BASE_TABLE_NAME = prop.getProperty("base_table_name");
 	
-	public static final String QCTableName = "qc_" + prop.getProperty("base_table_name");
+	public static final String QC_TABLE_NAME = "qc_" + prop.getProperty("base_table_name");
 	
 	// Hive Properties
-	public static final String wareHousePath = prop.getProperty("warehouse_path");
+	public static final String WAREHOUSE_PATH = prop.getProperty("warehouse_path");
 	
-	public static final String hiveUsername = prop.getProperty("hive_username");
+	public static final String HIVE_USERNAME = prop.getProperty("hive_username");
 	
-	public static final String hivePassword = prop.getProperty("hive_password");
+	public static final String HIVE_PASSWORD = prop.getProperty("hive_password");
 	
-	public static final String hivePort = prop.getProperty("hive_port");
+	public static final String HIVE_PORT = prop.getProperty("hive_port");
 	
-	public static final String hiveserverPort = prop.getProperty("hive_server_port");
+	public static final String HIVE_SERVER_PORT = prop.getProperty("hive_server_port");
 	
-	public static final String hiveClientIP = prop.getProperty("hive_client_ip");
+	public static final String HIVE_CLIENT_IP = prop.getProperty("hive_client_ip");
 	
-	public static final String hiveDB = prop.getProperty("hive_db");
+	public static final String HIVE_DB = prop.getProperty("hive_db");
 	
-	public static final String hiveDriverName = prop.getProperty("hive_driver_name");
+	public static final String HIVE_DRIVER_NAME = prop.getProperty("hive_driver_name");
 	
-	public static final String fileSeperator = prop.getProperty("file_seperator");
+	public static final String FILE_SEPERATOR = prop.getProperty("file_seperator");
 	
 	//QCTree
 	
-	public static final String latticeFilename = prop.getProperty("lattice_filename");
+	public static final String LATTICE_FILENAME = prop.getProperty("lattice_filename");
 	
-	public static final String qcTreeFilename = prop.getProperty("qctree_filename");
+	public static final String QCTREE_FILENAME = prop.getProperty("qctree_filename");
 	
 	public static String printProperties(){
 		Enumeration<Object> e = prop.keys();

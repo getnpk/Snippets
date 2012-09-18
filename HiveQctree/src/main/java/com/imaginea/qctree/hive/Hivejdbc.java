@@ -20,7 +20,6 @@ import java.util.TreeSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
@@ -32,17 +31,16 @@ import com.imaginea.qctree.Row;
 import com.imaginea.qctree.Table;
 import com.imaginea.qctree.Class;
 import com.imaginea.qctree.hadoop.QCTree;
-import com.imaginea.qctree.Property;
 
 
 public class Hivejdbc {
 
 	private static final Log LOG = LogFactory.getLog(Hivejdbc.class);
-	private static String driverName = Property.hiveDriverName;
+	private static String driverName = Property.HIVE_DRIVER_NAME;
 	private static Hivejdbc hivejdbc;
 	
-	private String wareHouseURL = new StringBuilder().append("jdbc:hive://").append(Property.hiveClientIP).append(":")
-					.append(Property.hiveserverPort).append("/").append(Property.hiveDB).toString();
+	private String wareHouseURL = new StringBuilder().append("jdbc:hive://").append(Property.HIVE_CLIENT_IP).append(":")
+					.append(Property.HIVE_SERVER_PORT).append("/").append(Property.HIVE_DB).toString();
 			
 	private Connection connection;
 	private Statement statement;
@@ -79,7 +77,7 @@ public class Hivejdbc {
 		
 		try {
 			
-			connection = DriverManager.getConnection(wareHouseURL, Property.hiveUsername, Property.hivePassword);
+			connection = DriverManager.getConnection(wareHouseURL, Property.HIVE_USERNAME, Property.HIVE_PASSWORD);
 			statement = connection.createStatement();
 			
 		} catch (SQLException e) {
@@ -91,7 +89,7 @@ public class Hivejdbc {
 	
 	public void buildQCube(){
 		
-		String query = "select * from " + Property.baseTableName;
+		String query = "select * from " + Property.BASE_TABLE_NAME;
 		try {
 			LOG.info("Running: " + query);
 			resultset = statement.executeQuery(query);
@@ -134,7 +132,7 @@ public class Hivejdbc {
 		doLocalDeserialize();
 		*/
 
-		LOG.info("Creating table.. " + createTable(Property.QCTableName));
+		LOG.info("Creating table.. " + createTable(Property.QC_TABLE_NAME));
 		
 		LOG.info("Loading files.. " + loadFiles());
 	}
@@ -144,7 +142,7 @@ public class Hivejdbc {
 		ObjectOutputStream oos;
 		
 		try {
-			fos = new FileOutputStream(Property.qcTreeFilename);
+			fos = new FileOutputStream(Property.QCTREE_FILENAME);
 			try {
 				oos = new ObjectOutputStream(fos);
 				oos.writeObject(tree);
@@ -161,7 +159,7 @@ public class Hivejdbc {
 	}
 
 	private void doLocalDeserialize() {
-		String fullPath = System.getProperty("user.dir") + "/" + Property.qcTreeFilename;
+		String fullPath = System.getProperty("user.dir") + "/" + Property.QCTREE_FILENAME;
 		try {
 			FileInputStream fis = new FileInputStream(fullPath);
 			try {
@@ -185,9 +183,9 @@ public class Hivejdbc {
 
 	public QCTree getTree(){
 		
-		String uri = new StringBuilder().append("hdfs://").append(Property.hiveClientIP)
-				.append(":").append(Property.hivePort).append(Property.wareHousePath).append("/")
-				.append(Property.QCTableName).append("/").append(Property.qcTreeFilename).toString();
+		String uri = new StringBuilder().append("hdfs://").append(Property.HIVE_CLIENT_IP)
+				.append(":").append(Property.HIVE_PORT).append(Property.WAREHOUSE_PATH).append("/")
+				.append(Property.QC_TABLE_NAME).append("/").append(Property.QCTREE_FILENAME).toString();
 		
 		LOG.info("URI: " + uri);
 		
@@ -245,18 +243,18 @@ public class Hivejdbc {
 		Boolean success = false;
 		
 		try {
-			String fullPath = System.getProperty("user.dir") + "/" + Property.latticeFilename;
+			String fullPath = System.getProperty("user.dir") + "/" + Property.LATTICE_FILENAME;
 			LOG.info("Lattice structure: " + fullPath);
-			resultset = statement.executeQuery("load data local inpath '" + fullPath +"' into table " + Property.QCTableName );
+			resultset = statement.executeQuery("load data local inpath '" + fullPath +"' into table " + Property.QC_TABLE_NAME );
 			if(resultset != null){
 				LOG.info("loaded qclattice data");
 				new File(fullPath).delete();
 				LOG.info("local qclattice file deleted.");
 			}
 			
-			fullPath = System.getProperty("user.dir") + "/" + Property.qcTreeFilename;
+			fullPath = System.getProperty("user.dir") + "/" + Property.QCTREE_FILENAME;
 			LOG.info("Lattice structure: " + fullPath);
-			resultset = statement.executeQuery("load data local inpath '" + fullPath +"' into table " + Property.QCTableName );
+			resultset = statement.executeQuery("load data local inpath '" + fullPath +"' into table " + Property.QC_TABLE_NAME );
 			if(resultset != null){
 				LOG.info("loaded serialised object");
 				new File(fullPath).delete();
@@ -297,7 +295,7 @@ public class Hivejdbc {
 		String meas = sb.toString();
 		meas = meas.substring(0, meas.lastIndexOf(","));
 		
-		String query = new StringBuilder().append("create table ").append(Property.baseTableName)
+		String query = new StringBuilder().append("create table ").append(Property.BASE_TABLE_NAME)
 				.append(" (").append(dims).append(meas).append(" )").append(" row format delimited fields terminated" +
 						" by '\t' escaped by '\\\\' lines terminated by '\n'").toString();
 		LOG.info("Query: " + query);
@@ -311,7 +309,7 @@ public class Hivejdbc {
 		}
 		
 		if (resultset != null)
-			LOG.info(Property.baseTableName + " table created.");
+			LOG.info(Property.BASE_TABLE_NAME + " table created.");
 		
 		return ifExists;
 	}

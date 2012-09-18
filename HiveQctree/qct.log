@@ -126,3 +126,23 @@ INFO main com.imaginea.qctree.hive.Hivejdbc - Lattice structure: /home/hadoop/wo
 INFO main com.imaginea.qctree.hive.Hivejdbc - loaded serialised object
 INFO main com.imaginea.qctree.hive.Hivejdbc - local serialised object deleted.
 INFO main com.imaginea.qctree.hive.Hivejdbc - Loading files.. true
+INFO main com.imaginea.qctree.hive.Hivejdbc - qctree_filename : qcTree.ser
+hive_username : hadoop
+hive_client_ip : localhost
+hive_password : hadoop
+hive_db : default
+hive_server_port : 10000
+lattice_filename : qcube_lattice.csv
+base_table_name : hivebasetable
+file_seperator : ,
+warehouse_path : /hive/warehouse
+hive_driver_name : org.apache.hadoop.hive.jdbc.HiveDriver
+hive_port : 40000
+
+INFO main com.imaginea.qctree.hive.Hivejdbc - URI: hdfs://localhost:40000/hive/warehouse/qc_hivebasetable/qcTree.ser
+INFO main com.imaginea.qctree.hadoop.Query - *,Microsoft,*
+INFO main com.imaginea.qctree.hadoop.Query - Average=5.8,Sum=29,Maximum=10,Minimum=2,Count=5
+INFO main com.imaginea.qctree.hadoop.Query - P2,Altavista,*
+INFO main com.imaginea.qctree.hadoop.Query - Average=6,Sum=12,Maximum=7,Minimum=5,Count=2
+INFO main com.imaginea.qctree.hadoop.Query - *,*,p
+INFO main com.imaginea.qctree.hadoop.Query - Average=5.56,Sum=267,Maximum=10,Minimum=1,Count=48

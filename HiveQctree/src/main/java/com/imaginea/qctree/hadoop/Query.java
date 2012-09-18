@@ -14,7 +14,7 @@ public class Query {
 	
 	public void execute(QCTree tree, String query){
 	
-		String[] split = query.split(Property.fileSeperator);
+		String[] split = query.split(Property.FILE_SEPERATOR);
 	    this.cell = new Cell(split);
 	    
 	    QCNode node = tree.getRoot();

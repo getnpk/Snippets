@@ -76,7 +76,7 @@ public class QCCube {
 	PrintWriter writer = null;
 	  
 	  try {
-		writer = new PrintWriter(new File(Property.latticeFilename));
+		writer = new PrintWriter(new File(Property.LATTICE_FILENAME));
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
 	}
