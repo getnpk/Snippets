@@ -362,7 +362,7 @@ public class Hivejdbc {
 	 * does not work with just the lattice structure.
 	 * Direction 1
 	 * */
-	public void buildTree(){
+	private void buildTree(){
 		Set<Class> classes = new TreeSet<Class>();
 		Cell cell;
 		try {
