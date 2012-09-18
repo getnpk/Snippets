@@ -12,6 +12,9 @@ public class BuildTree {
 
 	private static final Log LOG = LogFactory.getLog(BuildTree.class);
 	
+	/*
+	 * Check for HIVE_SERVER_PORT usage.
+	 * */
 	private static Boolean isRunning(int port){
 		ServerSocket sc = null;
 		Boolean running = false;
@@ -36,17 +39,24 @@ public class BuildTree {
 	
 	public static void main (String[] args ){
 		
-		Boolean running = isRunning(Integer.parseInt(Property.HIVE_PORT));
-		LOG.info("Hive Server running: " + running);
-		if (running){
+		if (isRunning(Integer.parseInt(Property.HIVE_PORT))){
+			
+			LOG.info("Hive Server running at: " + Property.HIVE_PORT);
 			
 			Hivejdbc obj = Hivejdbc.getObject();
+			
+			// Proceed based on availability of base table.
 			if(obj.checkSource())
-					obj.buildQCube();
-			else
-				LOG.info("Load files in new Source table.");
+				// Build cube from existing hive table.
+				obj.buildQCTree();
+			else{
+				// Load files and build table.
+				obj.loadRawFiles();
+				obj.buildQCTree();
+			}
 		}else{
-			LOG.info("Exiting.");
+			LOG.info("Exiting. HiveServer not running at:" + Property.HIVE_PORT );
+			System.exit(1);
 		}
 		
 		

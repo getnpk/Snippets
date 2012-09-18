@@ -87,7 +87,13 @@ public class Hivejdbc {
 		
 	}
 	
-	public void buildQCube(){
+	/*
+	 * Reads hive source table.
+	 * Builds QCTree.
+	 * Creates output table.
+	 * Loads logs and serialised object.
+	 * */
+	public void buildQCTree(){
 		
 		String query = "select * from " + Property.BASE_TABLE_NAME;
 		try {
@@ -127,16 +133,14 @@ public class Hivejdbc {
 		LOG.info("attempting a serialization on tree object..");
 		doSerialize(tree);
 		
-		/*
-		LOG.info("deserializing...");
-		doLocalDeserialize();
-		*/
-
 		LOG.info("Creating table.. " + createTable(Property.QC_TABLE_NAME));
 		
 		LOG.info("Loading files.. " + loadFiles());
 	}
 	
+	/*
+	 * Serialises object to be loaded. 
+	 * */
 	private void doSerialize(QCTree tree) {
 		FileOutputStream fos;
 		ObjectOutputStream oos;
@@ -158,6 +162,9 @@ public class Hivejdbc {
 		
 	}
 
+	/*
+	 * For testing.
+	 * */
 	private void doLocalDeserialize() {
 		String fullPath = System.getProperty("user.dir") + "/" + Property.QCTREE_FILENAME;
 		try {
@@ -180,7 +187,10 @@ public class Hivejdbc {
 		
 	}
 
-
+	/*
+	 * Reads serialised object from HDFS.
+	 * Returns QCTree data structure.
+	 * */
 	public QCTree getTree(){
 		
 		String uri = new StringBuilder().append("hdfs://").append(Property.HIVE_CLIENT_IP)
@@ -217,7 +227,9 @@ public class Hivejdbc {
 		return tree;
 	}
 	
-	
+	/*
+	 * Creation of dummy hive table} for final output.
+	 * */
 	private Boolean createTable(String tablename){
 		
 		String query = "create table " + tablename + " (def string)";
@@ -238,6 +250,32 @@ public class Hivejdbc {
 		return (resultset == null ? false : true);
 	}
 	
+	/*
+	 * Initial load of files to newly created base table.
+	 * */
+	public void loadRawFiles(){
+		String rawFileDir = System.getProperty("user.dir") + "/rawfiles";
+		
+		File dir = new File(rawFileDir);
+		
+		for (String f : dir.list()){
+			try {
+				resultset = statement.executeQuery("load data local inpath '" + rawFileDir+"/"+f +"' into table " + Property.BASE_TABLE_NAME );
+				if(resultset != null)
+					LOG.info("Loaded RawFile: " + f);
+			} catch (SQLException e) {
+				LOG.info("Expection loading RawFile: " + f);
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
+	
+	/*
+	 * Loads lattice structure and serialised object
+	 * onto the hive base table.
+	 * */
 	private Boolean loadFiles(){
 	
 		Boolean success = false;
@@ -278,7 +316,10 @@ public class Hivejdbc {
 		return success;
 	}
 	
-	
+	/*
+	 * Check if source table exists. If not, create based on
+	 * data provided in the JSON object.
+	 * */
 	public Boolean checkSource(){
 		
 		Boolean ifExists = false;
@@ -297,19 +338,21 @@ public class Hivejdbc {
 		
 		String query = new StringBuilder().append("create table ").append(Property.BASE_TABLE_NAME)
 				.append(" (").append(dims).append(meas).append(" )").append(" row format delimited fields terminated" +
-						" by '\t' escaped by '\\\\' lines terminated by '\n'").toString();
+						" by '"+ Property.HIVE_TABLE_FIELD_SEPERATOR +
+						"' escaped by '"+ Property.HIVE_TABLE_ESCAPED_BY +"' lines terminated by '"+ 
+						Property.HIVE_TABLE_LINE_TERMINATOR +"'").toString();
+		
 		LOG.info("Query: " + query);
 		
 		try {
 			resultset = statement.executeQuery(query);
 			ifExists = false;
+			LOG.info(Property.BASE_TABLE_NAME + " does not exist, table created.");
 		} catch (SQLException e) {
 			ifExists = true;
+			LOG.info(Property.BASE_TABLE_NAME + " exists, table not created.");
 			//e.printStackTrace();
 		}
-		
-		if (resultset != null)
-			LOG.info(Property.BASE_TABLE_NAME + " table created.");
 		
 		return ifExists;
 	}
@@ -326,7 +369,6 @@ public class Hivejdbc {
 			resultset = statement.executeQuery("select * from qcube_lattice");
 			while(resultset.next()){
 				Class theclass = new Class();
-				//System.out.printf("%d %s %s %d", resultset.getInt(1), resultset.getString(2), resultset.getString(3), resultset.getInt(4));
 				
 				theclass.setClassID(resultset.getInt(1));
 				cell = new Cell(resultset.getString(2).toString().split(" ")); 

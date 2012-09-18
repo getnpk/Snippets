@@ -52,7 +52,14 @@ public final class Property {
 	
 	public static final String HIVE_DRIVER_NAME = prop.getProperty("hive_driver_name");
 	
-	public static final String FILE_SEPERATOR = prop.getProperty("file_seperator");
+	public static final String HIVE_TABLE_LINE_TERMINATOR = prop.getProperty("hive_table_line_terminator");
+			
+	public static final String HIVE_TABLE_FIELD_SEPERATOR = prop.getProperty("hive_table_field_seperator");
+			
+	public static final String HIVE_TABLE_ESCAPED_BY = prop.getProperty("hive_table_escaped_by");		
+	
+	//Query
+	public static final String QUERY_FILE_SEPERATOR = prop.getProperty("query_file_seperator");
 	
 	//QCTree
 	
