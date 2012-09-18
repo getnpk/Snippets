@@ -39,9 +39,9 @@ public class BuildTree {
 	
 	public static void main (String[] args ){
 		
-		if (isRunning(Integer.parseInt(Property.HIVE_PORT))){
+		if (isRunning(Integer.parseInt(Property.HIVE_SERVER_PORT))){
 			
-			LOG.info("Hive Server running at: " + Property.HIVE_PORT);
+			LOG.info("Hive Server running at: " + Property.HIVE_SERVER_PORT);
 			
 			Hivejdbc obj = Hivejdbc.getObject();
 			
@@ -55,7 +55,7 @@ public class BuildTree {
 				obj.buildQCTree();
 			}
 		}else{
-			LOG.info("Exiting. HiveServer not running at:" + Property.HIVE_PORT );
+			LOG.info("Exiting. HiveServer not running at:" + Property.HIVE_SERVER_PORT );
 			System.exit(1);
 		}
 		
