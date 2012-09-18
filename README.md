@@ -1,7 +1,6 @@
-<h2>Java source code</h2>
+<h2>java src</h2>
 
 <ul>
 <li>DS</li>
-<li>Test Code</li>
-<li>Resources</li>
+<li>HiveQcTree</li>
 <ul>
